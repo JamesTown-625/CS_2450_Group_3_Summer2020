@@ -21,7 +21,7 @@ const App2 = () => {
     const handleInput = (e) => {
         e.preventDefault();
         // array spreading to push a new object with the memoryVal and memoryAddress
-        setMemory([memory, { memoryAddress: Math.floor(Math.random() * 10000), memoryVal: memoryVal }])
+        setMemory([...memory, { memoryAddress: Math.floor(Math.random() * 10000), memoryVal: memoryVal }])
         //click twice to see the memory address
         console.log(memory)
 
