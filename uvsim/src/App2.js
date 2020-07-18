@@ -15,13 +15,15 @@ const App2 = () => {
     const [memory, setMemory] = useState([]);
     const [memoryVal, setMemoryVal] = useState("")
     const [searchVal, setSearchVal] = useState("")
+    const [loadVal, setLoadVal] = useState("")
+    const [loadedVal, setLoadedVal] = useState([])
     const [found, setFound] = useState("")
 
     // handles the Add Button input
     const handleInput = (e) => {
         e.preventDefault();
         // array spreading to push a new object with the memoryVal and memoryAddress
-        setMemory([...memory, { memoryAddress: Math.floor(Math.random() * 10000), memoryVal: memoryVal }])
+        setMemory([...memory, { memoryAddress: Math.floor(Math.random() * 10000), memoryVal: memoryVal, operand:11 }])
         //click twice to see the memory address
         console.log(memory)
 
@@ -33,6 +35,7 @@ const App2 = () => {
         memory.find((m) => {
             if (m.memoryAddress === parseInt(searchVal)) {
                 setFound(m.memoryVal)
+                setMemory({...m, operand:10})
             }
         });
         console.log(memory)
@@ -46,6 +49,22 @@ const App2 = () => {
     // handles the input value for the second input
     const handleFindChange = e => {
         setSearchVal(e.target.value)
+    }
+    
+    // handles input for the load value
+    const handleLoadChange = e => {
+        setLoadVal(e.target.value)
+    }
+    // handles the load value
+    const handleLoad = e => {
+        // click and saves it to available register
+        memory.find((m) => {
+            if (m.memoryAddress === parseInt(searchVal)) {
+                setLoadedVal([...memory, m.memoryVal])
+                setMemory({...m, operand:20})
+            }
+        });
+
     }
 
 
@@ -80,6 +99,11 @@ const App2 = () => {
             }
             <Container>
                 <h2> Load Into Register</h2>
+                <Input value={loadVal} onChange={handleLoadChange} />
+                <Button variant="contained" color="primary" onClick={handleLoad}>
+                    Loaded
+          </Button>
+                {/* will  have to loop through loadedValues and set them to a register */}
             </Container>
         </div>
     )
