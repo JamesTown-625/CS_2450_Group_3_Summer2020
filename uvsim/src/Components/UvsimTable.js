@@ -34,7 +34,7 @@ const rows = [
 
 ];
 
-const UvsimTable = () => {
+const UvsimTable = (props) => {
 
     const classes = useStyles();
     return (
@@ -44,21 +44,19 @@ const UvsimTable = () => {
                 <TableHead>
                     <TableRow>
                         <TableCell align="center">Row</TableCell>
-                        <TableCell colSpan={2} align="center">Operation</TableCell>
-                        <TableCell colSpan={2} align="center">Operand</TableCell>
+                        <TableCell align="center">Operation</TableCell>
+                        <TableCell align="center">Address</TableCell>
 
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
+                    {props.memory.map((row, index) => (
                         <TableRow key={row.name}>
                             <TableCell align="center" component="th" scope="row">
-                                {row.rowNum}
+                                {index}
                             </TableCell>
-                            <TableCell align="right">{row.op1}</TableCell>
-                            <TableCell align="left">{row.op2}</TableCell>
-                            <TableCell align="right">{row.rand1}</TableCell>
-                            <TableCell align="left">{row.rand2}</TableCell>
+                            <TableCell align="center">{row.operation}</TableCell>
+                            <TableCell align="center">{row.memoryAddress}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
