@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Button, Input, Container, Label } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
+import UvsimTable from "./Components/UvsimTable"
 
 const useStyles = makeStyles((theme) => ({
     App: {
         textAlign: 'center'
     }
 }));
-
 
 const App2 = () => {
 
@@ -19,6 +19,7 @@ const App2 = () => {
 
     // handles the Add Button input
     const handleInput = (e) => {
+
         e.preventDefault();
         // array spreading to push a new object with the memoryVal and memoryAddress
         setMemory([...memory, { memoryAddress: Math.floor(Math.random() * 10000), memoryVal: memoryVal }])
@@ -66,7 +67,6 @@ const App2 = () => {
                     Add
           </Button>
             </Container>
-
             <Container>
                 <h2> Find Memory Value </h2>
                 <Input value={searchVal} onChange={handleFindChange} />
@@ -81,6 +81,7 @@ const App2 = () => {
             <Container>
                 <h2> Load Into Register</h2>
             </Container>
+            <UvsimTable />
         </div>
     )
 }
