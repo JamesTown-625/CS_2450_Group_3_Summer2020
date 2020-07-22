@@ -10,24 +10,30 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const App2 = () => {
+
   const classes = useStyles();
+
   const [memory, setMemory] = useState([
     { memoryAddress: "00", operation: "00" },
     { memoryAddress: "01", operation: "00" },
     { memoryAddress: "02", operation: "00" },
     { memoryAddress: "03", operation: "00" },
   ]);
+
   const [memoryVal, setMemoryVal] = useState("");
   const [searchVal, setSearchVal] = useState("");
   const [loadVal, setLoadVal] = useState("");
   const [loadedVal, setLoadedVal] = useState([]);
   const [found, setFound] = useState("");
-  const [x, setX] = useState(10);
+  const [x, changeX] = useState(10);
 
-  const trigger = () => {
-    setX(4);
-    console.log("triggering re-render");
+
+
+  const renderTable = () => {
+    changeX(1);
+    console.log(" re-rendering table");
   };
+
   // handles the Add Button input
   const handleInput = (e) => {
     let randomNumSet = new Set();
@@ -56,7 +62,7 @@ const App2 = () => {
 
     //click twice to see the memory address
     console.log(memory);
-    trigger();
+    renderTable();
   };
 
   const handleFind = (e) => {
@@ -72,13 +78,13 @@ const App2 = () => {
         for (let index = 0; index < 200; index++) {
           randomNumSet.add(Math.floor(Math.random() * 100));
         }
-    
+
         //grab the first 100 numbers in the array unique
         let randomSetToArray = Array.from(randomNumSet).slice(0, 99);
-    
+
         //loops through and adds the n to memoryAddress
         // array spreading to push a new object with the memoryVal and memoryAddress
-    
+
         randomSetToArray.forEach((n) => {
           if (memory.memoryAddress !== n) {
             setMemory([
@@ -87,12 +93,12 @@ const App2 = () => {
             ]);
             return;
           }
-      });
-    }
-    console.log(memory);
-    trigger()
-  });
-}
+        });
+      }
+      console.log(memory);
+      renderTable()
+    });
+  }
 
   // handles the input value for the first input
   const handleAddChange = (e) => {
@@ -112,33 +118,33 @@ const App2 = () => {
   const handleLoad = (e) => {
     // click and saves it to available register
     memory.find((m) => {
-        if (m.memoryAddress === parseInt(searchVal)) {
-          setFound(m.memoryVal);
-          let randomNumSet = new Set();
-  
-          //generate number. Set() does not let you have duplicates
-          for (let index = 0; index < 200; index++) {
-            randomNumSet.add(Math.floor(Math.random() * 100));
+      if (m.memoryAddress === parseInt(searchVal)) {
+        setFound(m.memoryVal);
+        let randomNumSet = new Set();
+
+        //generate number. Set() does not let you have duplicates
+        for (let index = 0; index < 200; index++) {
+          randomNumSet.add(Math.floor(Math.random() * 100));
+        }
+
+        //grab the first 100 numbers in the array unique
+        let randomSetToArray = Array.from(randomNumSet).slice(0, 99);
+
+        //loops through and adds the n to memoryAddress
+        // array spreading to push a new object with the memoryVal and memoryAddress
+
+        randomSetToArray.forEach((n) => {
+          if (memory.memoryAddress !== n) {
+            setMemory([
+              ...memory,
+              { memoryAddress: n, memoryVal: memoryVal, operation: 20 },
+            ]);
+            return;
           }
-      
-          //grab the first 100 numbers in the array unique
-          let randomSetToArray = Array.from(randomNumSet).slice(0, 99);
-      
-          //loops through and adds the n to memoryAddress
-          // array spreading to push a new object with the memoryVal and memoryAddress
-      
-          randomSetToArray.forEach((n) => {
-            if (memory.memoryAddress !== n) {
-              setMemory([
-                ...memory,
-                { memoryAddress: n, memoryVal: memoryVal, operation: 20 },
-              ]);
-              return;
-            }
         });
       }
       console.log(memory);
-      trigger()
+      renderTable()
     });
   };
 
@@ -171,7 +177,7 @@ const App2 = () => {
         </Button>
         {/* will  have to loop through loadedValues and set them to a register */}
       </Container>
-      <UvsimTable key={x} var={x} memory={memory} />
+      <UvsimTable key={x} memory={memory} />
     </div>
   );
 };
