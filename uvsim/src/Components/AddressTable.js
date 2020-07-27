@@ -10,63 +10,60 @@ import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles({
     table: {
-        maxWidth: 350,
+        maxWidth: 600,
         margin: '0 auto'
     },
     headerCell: {
         colspan: "2"
+    },
+    tableTitleBackground: {
+        height: '67px',
+        display: 'grid',
+        backgroundColor: 'black'
+    },
+    tableTitle: {
+        alignSelf: 'center',
+        color: 'white',
+        textAlign: 'center'
     }
 });
 
-function createData(rowNum, op1, op2, rand1, rand2) {
-    return { rowNum, op1, op2, rand1, rand2 };
-}
 
-const rows = [
-    createData(0, 1, 0, 0, 0),
-    createData(1, 1, 1, 0, 0),
-    createData(2, 2, 0, 0, 0),
-    createData(3, 2, 1, 0, 0),
-    createData(4, 3, 0, 0, 0),
-    createData(5, 3, 1, 0, 0),
-    createData(6, 3, 2, 0, 0),
-    createData(7, 3, 3, 0, 0),
-
-];
-
-const UvsimTable = (props) => {
+const AddressTable = (props) => {
 
     const classes = useStyles();
     return (
+
         <Fragment>
-            <h1 style={{ textAlign: 'center' }}>Addresses</h1>
+            <div className={classes.tableTitleBackground}>
+                <h2 className={classes.tableTitle}>Addresses</h2>
+            </div>
             <TableContainer className={classes.table} component={Paper}>
+
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell align="center">Row</TableCell>
-                            <TableCell align="center">Operation</TableCell>
                             <TableCell align="center">Address</TableCell>
+                            <TableCell align="center">Opcode</TableCell>
+                            <TableCell align="center">Src/Dest/Val</TableCell>
 
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {props.memory.map((row, index) => (
                             <TableRow key={row.name}>
-                                <TableCell align="center" component="th" scope="row">
-                                    {index}
-                                </TableCell>
-                                <TableCell align="center">{row.operation}</TableCell>
                                 <TableCell align="center">{row.memoryAddress}</TableCell>
+                                <TableCell align="center">{row.operation}</TableCell>
+                                <TableCell align="center">00000000</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
-        </Fragment>
+        </Fragment >
     )
 }
 
-export default UvsimTable
+export default AddressTable
 
 
