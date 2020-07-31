@@ -11,7 +11,9 @@ import Paper from '@material-ui/core/Paper';
 const useStyles = makeStyles({
     table: {
         maxWidth: 600,
-        margin: '0 auto'
+        margin: '0 auto',
+        overflow: 'auto',
+        height: '553px'
     },
     headerCell: {
         colspan: "2"
@@ -25,7 +27,8 @@ const useStyles = makeStyles({
         alignSelf: 'center',
         color: 'white',
         textAlign: 'center'
-    }
+    },
+
 });
 
 
@@ -39,7 +42,6 @@ const AddressTable = (props) => {
                 <h2 className={classes.tableTitle}>Addresses</h2>
             </div>
             <TableContainer className={classes.table} component={Paper}>
-
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
@@ -49,7 +51,7 @@ const AddressTable = (props) => {
 
                         </TableRow>
                     </TableHead>
-                    <TableBody>
+                    <TableBody >
                         {props.memory.map((row, index) => (
                             <TableRow key={row.name}>
                                 <TableCell align="center">{row.memoryAddress}</TableCell>

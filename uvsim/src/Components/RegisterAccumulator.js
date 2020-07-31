@@ -22,6 +22,16 @@ const useStyles = makeStyles({
         alignItems: 'center',
 
         top: '0'
+    },
+    span: {
+        alignSelf: 'center',
+        justifySelf: 'center',
+        marginTop: '2px',
+        marginBottom: '2px'
+    },
+    regName: {
+        justifySelf: 'center',
+        color: 'white'
     }
 
 
@@ -32,11 +42,12 @@ const RegisterAccumulator = (props) => {
     return (
         <Paper className={classes.background} elevation={10}>
             <div className={classes.registerHeader}>
-                <h2 style={{ justifySelf: 'center', color: 'white' }}>Register</h2>
+                <h2 className={classes.regName}>Register</h2>
             </div>
             <div className={classes.grid}>
-
-                <span style={{ alignSelf: 'center', justifySelf: 'center', marginTop: '2px', marginBottom: '2px' }}><strong>Register1:</strong> 5d78df5e</span>
+                <span className={classes.span}>
+                    <strong>Register1:</strong> x00000
+                </span>
             </div>
         </Paper>
     )

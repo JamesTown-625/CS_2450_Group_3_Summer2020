@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Button, Input, Container, Label } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import UvsimTable from "./Components/UvsimTable";
 import AddressTable from "./Components/AddressTable"
 import RegisterAccumulator from "./Components/RegisterAccumulator"
 import Console from "./Components/Console"
+import Header from "./Components/Header"
 import mainTheme from "./Styles/mainTheme"
 import "./Styles/global.css"
 
@@ -167,7 +166,9 @@ const App2 = () => {
 
     return (
         <MuiThemeProvider theme={mainTheme}>
+            <Header />
             <div>
+                <div>Test</div>
                 <div className={classes.container}>
                     <div className={classes.leftGrid}>
                         <RegisterAccumulator />
