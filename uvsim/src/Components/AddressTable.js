@@ -46,17 +46,16 @@ const AddressTable = (props) => {
                     <TableHead>
                         <TableRow>
                             <TableCell align="center">Address</TableCell>
-                            <TableCell align="center">Opcode</TableCell>
-                            <TableCell align="center">Src/Dest/Val</TableCell>
-
+                            <TableCell align="center">Instruction</TableCell>
+                            <TableCell align="center">Value</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody >
                         {props.memory.map((row, index) => (
                             <TableRow key={row.name}>
                                 <TableCell align="center">{row.memoryAddress}</TableCell>
-                                <TableCell align="center">{row.operation}</TableCell>
-                                <TableCell align="center">00000000</TableCell>
+                                <TableCell align="center">{row.operation + "00000000"}</TableCell>
+
                             </TableRow>
                         ))}
                     </TableBody>
