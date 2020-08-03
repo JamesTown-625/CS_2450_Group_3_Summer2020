@@ -23,71 +23,23 @@ BREAK		Missing
 CONTINUE		Missing
 */
 
-//We can move these functions into the components, I just put here for clarity
-//starting with a function to handle initial input
+//DEBUG OPERATIONS
 
-export function handleInput() {
-    //Accept keywords listed above ^^^ handle error
-    //Prompt user to enter one of those commands if input is invalid
+export function handleMemDump() {}
 
-}
+export function handleBreak() {}
 
-//based on valid input, call one of the following functions
-
-export function handleRead() {
-
-}
-
-export function handleWrite() {
-
-}
-
-export function handleLoad() {
-
-}
-
-export function handleStore() {
-
-}
-
-export function handleBranch() {
-
-}
-
-export function handleBranchNeg() {
-
-}
-
-export function handleBranchZero() {
-
-}
-
-export function handleHalt() {
-
-}
-
-export function handleMemDump() {
-
-}
-
-export function handleBreak() {
-
-}
-
-export function handleContinue() {
-
-
-}
+export function handleContinue() {}
 
 export function printUsedFunctionToConsole(consoleLines, setConsoleLines, str) {
-    if (consoleLines.length >= 7) {
-        consoleLines.splice(0, 1)
-        setConsoleLines([...consoleLines])
-        setConsoleLines([...consoleLines, str])
-        console.log("if", consoleLines)
-    } else {
-        setConsoleLines([...consoleLines, str])
-    }
+  if (consoleLines.length >= 7) {
+    consoleLines.splice(0, 1);
+    setConsoleLines([...consoleLines]);
+    setConsoleLines([...consoleLines, str]);
+    console.log("if", consoleLines);
+  } else {
+    setConsoleLines([...consoleLines, str]);
+  }
 }
 
 /*
