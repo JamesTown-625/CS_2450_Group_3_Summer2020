@@ -7,7 +7,18 @@ import Console from "./Components/Console"
 import Header from "./Components/Header"
 import mainTheme from "./Styles/mainTheme"
 import "./Styles/global.css"
-import { test } from "./functions"
+import {
+    handleAdd,
+    handleSubtract,
+    handleMultiply,
+    handleDivide,
+    handleModulus,
+    handleExponent
+} from "./arithmetic"
+import { printUsedFunctionToConsole } from "./functions"
+
+
+
 
 const useStyles = makeStyles((theme) => ({
 
@@ -29,85 +40,97 @@ const useStyles = makeStyles((theme) => ({
 const App = () => {
 
     const classes = useStyles();
-
     const [memory, setMemory] = useState([
-        // example line of machine code - 0001 add decimal #10 to register 1
-        { memoryAddress: "0000", machine_language_line: "0001001001101010" },
-        { memoryAddress: "0001", machine_language_line: "0001001001101010" },
-        { memoryAddress: "0002", machine_language_line: "0001001001101010" },
-        { memoryAddress: "0003", machine_language_line: "0001001001101010" },
+        //example line of machine code - 0001 add decimal #10 to register 1
+        // { memoryAddress: 0, machine_language_line: "0001001001101010" },
+        // { memoryAddress: 1, machine_language_line: "0001001001000001" },
+        // { memoryAddress: 2, machine_language_line: "0010001001101010" },
+        // { memoryAddress: 3, machine_language_line: "0010001001001010" },
+        // { memoryAddress: 4, machine_language_line: "0010001001001010" },
+        // { memoryAddress: 5, machine_language_line: "0010001001001010" },
+        // { memoryAddress: 6, machine_language_line: "0010001001001010" },
+        // { memoryAddress: 7, machine_language_line: "0010001001001010" },
+        // { memoryAddress: 8, machine_language_line: "0010001001001010" },
+        // { memoryAddress: 9, machine_language_line: "0010001001001010" },
+        // { memoryAddress: 10, machine_language_line: "0010001001001010" },
     ]);
-    const [program_counter, setProgramCounter] = useState(0);
-    //https://dev.to/brettblox/react-hooks-usestate-43en#:~:text=Updating%20Arrays%20and%20Objects,found%20in%20class%2Dbased%20components.
     const [registers, setRegisters] = useState({
-        jerry: {
-            firstName: 'Jerry',
-            lastName: 'Garcia',
-            address: {
-                street: '710 Ashbury Street',
-                city: 'San Francisco',
-                state: 'CA',
-                zip: '94117'
-            }
-        },
-        jim: {
-            firstName: 'Jim',
-            lastName: 'Morrison',
-            address: {
-                street: '8021 Rothdell Trail',
-                city: 'Los Angeles',
-                state: 'CA',
-                zip: '90046'
-            }
-        }
-
+        r001: { value: 5 },
+        r010: { value: 0 },
+        r011: { value: 0 },
+        r100: { value: 0 },
+        r101: { value: 0 },
+        r110: { value: 0 },
+        r111: { value: 0 },
     });
+    const [addressCounter, setAddressCounter] = useState(0);
+    const [program_counter, setProgramCounter] = useState(1);
     const [codeInput, setCodeInput] = useState('');
     const [x, changeX] = useState(10);
-    const [y, changeY] = useState(0)
+    const [consoleLines, setConsoleLines] = useState([])
 
     useEffect(() => {
+        // Update the document title using the browser API
+        console.log("rerendering")
+        for (let i = 0; i <= 1000; i++) {
+            setMemory(memory => [...memory, { memoryAddress: i, machine_language_line: "0000000000000000" }])
 
-    }, [y])
+        }
+    }, []);
 
     const handleRun = () => {
+        printUsedFunctionToConsole(consoleLines, setConsoleLines, "calling handleRun")
 
         let line = memory[program_counter].machine_language_line;
         let opcode = memory[program_counter].machine_language_line.substring(0, 4);
-        console.log(`opcode:${opcode}`)
-        console.log('running test func, y is currently 0')
-        test(y, changeY)
-        console.log(`y is now ${y}`)
+
         switch (opcode) {
 
             // ADD
             case "0001":
-                // code block
-                //handleAdd(line)
-
+                handleAdd(line, registers, setRegisters)
+                break;
+            case "0002":
+                handleSubtract(line, registers, setRegisters)
+                break;
+            case "0003":
+                handleMultiply(line, registers, setRegisters)
+                break;
+            case "0004":
+                handleDivide(line, registers, setRegisters)
+                break;
+            case "0005":
+                handleModulus(line, registers, setRegisters)
+                break;
+            case "0006":
+                handleExponent(line, registers, setRegisters)
                 break;
             default:
-            // code block
         }
+        // console.log(memory)
     }
 
+    // simply function to update the value need to trigger rerender
+    const updateMemory = (userInput) => {
+        printUsedFunctionToConsole(consoleLines, setConsoleLines, "calling updateMemory")
 
-    const renderTable = () => {
-        changeX(1);
-        console.log(" re-rendering table");
-    };
+        memory.forEach((m, i) => {
+            console.log(i, addressCounter)
+            m.machine_language_line = userInput[i]
+            setAddressCounter(addressCounter + 1)
 
-    const openCodeWindow = () => {
-        //Pop up window on click
-        console.log('test')
+        })
     }
-
     const updateCode = (e) => {
+        printUsedFunctionToConsole(consoleLines, setConsoleLines, "calling updateCode")
+
         setCodeInput(e.target.value)
         console.log(codeInput)
     }
 
     const saveCode = (e) => {
+        printUsedFunctionToConsole(consoleLines, setConsoleLines, "calling saveCode")
+
         //Save machine code that's entered into window
         //COMMENTS ARE CURRENTLY NOT SUPPORTED
         let userCode = codeInput.split('\n');
@@ -115,33 +138,43 @@ const App = () => {
         // if the user puts more lines than we have current address's we push new spots until they are equal
         userCode.forEach(u => {
             //TODO add memory Address logic
+            //userCode.length < 1000)
             if (userCode.length !== memory.length) {
-                setMemory([...memory, { memory_address: addressCounter, machine_language_line: u }])
-                addressCounter++;
+                setMemory([...memory, { memory_address: addressCounter.toString(), machine_language_line: u }])
+
             }
+            updateMemory(userCode)
             return
         })
-
         // the code line length should be equal to the amount of memory spots we have. So this just updates
-        memory.forEach((m, i) => {
-            let userInput = x[i] || null
-            setMemory(m.machine_language_line = userInput)
+        updateMemory(userCode)
 
-        });
     }
 
     return (
+
         <MuiThemeProvider theme={mainTheme}>
             <Header />
             <div>
                 <div>Test</div>
                 <div className={classes.container}>
                     <div className={classes.leftGrid}>
-                        <RegisterAccumulator />
-                        <Console handleRun={handleRun} updateCode={updateCode} codeInput={codeInput} saveCode={saveCode} openCodeWindow={openCodeWindow} />
+                        <RegisterAccumulator registers={registers} />
+                        <Console
+                            handleRun={handleRun}
+                            updateCode={updateCode}
+                            codeInput={codeInput}
+                            saveCode={saveCode}
+                            consoleLines={consoleLines}
+                            setConsoleLines={setConsoleLines}
+                        />
                     </div>
                     <div>
-                        <AddressTable key={x} memory={memory} />
+                        <AddressTable
+                            key={x}
+                            memory={memory}
+                            setMemory={setMemory}
+                        />
                     </div>
                 </div >
             </div>
@@ -151,35 +184,3 @@ const App = () => {
 
 export default App;
 
-/*
-const handleAdd = (line) => {
-        let destination = line.substring(4, 7);
-        let source1 = line.substring(7, 10);
-        let immediate = line.substring(10, 11);
-        console.log(`dst:${destination} src:${source1} immediate:${line.substring(10, 11)}`)
-
-        if (parseInt(immediate)) {
-
-            let immediate_val = parseInt(line.substring(11), 2);
-            let reg = parseInt(destination)
-            console.log(`immediate value: ${immediate_val}`)
-            console.log(`destination: ${destination}`)
-            console.log(`to register: ${reg}`)
-            let destRegister = "r" + destination
-            console.log(`register: ${destRegister}`)
-
-            // ADD immediate_val to r1 (stored as a state in app.js)
-            // console.log(registers);
-
-
-            console.log(registers)
-        }
-        else {
-            console.log('not immediate mode')
-            let source2 = line.substring(line.length - 3)
-            console.log(source2)
-            // ADD source1 and source2 and then put that value in the destination register
-        }
-    }
-
-*/

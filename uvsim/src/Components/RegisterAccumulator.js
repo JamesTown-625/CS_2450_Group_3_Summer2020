@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -39,14 +39,22 @@ const useStyles = makeStyles({
 
 const RegisterAccumulator = (props) => {
     const classes = useStyles()
+
     return (
         <Paper className={classes.background} elevation={10}>
             <div className={classes.registerHeader}>
-                <h2 className={classes.regName}>Register</h2>
+                <h2 className={classes.regName}>General Use Registers</h2>
             </div>
             <div className={classes.grid}>
                 <span className={classes.span}>
-                    <strong>Register1:</strong> x00000
+                    <strong>Register1:</strong> {props.registers.r001.value}
+                    <strong> Register2:</strong> {props.registers.r010.value}
+                    <strong> Register3:</strong> {props.registers.r011.value}
+                    <strong> Register4:</strong> {props.registers.r100.value}
+                    <strong> Register5:</strong> {props.registers.r101.value}
+                    <strong> Register6:</strong> {props.registers.r110.value}
+                    <strong> Register7:</strong> {props.registers.r111.value}
+
                 </span>
             </div>
         </Paper>
