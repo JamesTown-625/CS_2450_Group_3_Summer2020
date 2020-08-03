@@ -13,12 +13,12 @@ export default createMuiTheme({
     overrides: {
         MuiTextField: {
             root: {
-                color: '#FFFFFF'
+                color: ''
             }
         },
         MuiInputBase: {
             root: {
-                color: '#FFFFFF'
+                color: ''
             }
         },
 

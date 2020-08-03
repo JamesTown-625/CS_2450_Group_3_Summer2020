@@ -7,6 +7,7 @@ import Console from "./Components/Console"
 import Header from "./Components/Header"
 import mainTheme from "./Styles/mainTheme"
 import "./Styles/global.css"
+import { test } from "./functions"
 
 const useStyles = makeStyles((theme) => ({
 
@@ -25,24 +26,70 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const App2 = () => {
+const App = () => {
 
     const classes = useStyles();
 
     const [memory, setMemory] = useState([
-        { memoryAddress: "0000", operation: "0000" },
-        { memoryAddress: "0001", operation: "0000" },
-        { memoryAddress: "0002", operation: "0000" },
-        { memoryAddress: "0003", operation: "0000" },
+        // example line of machine code - 0001 add decimal #10 to register 1
+        { memoryAddress: "0000", machine_language_line: "0001001001101010" },
+        { memoryAddress: "0001", machine_language_line: "0001001001101010" },
+        { memoryAddress: "0002", machine_language_line: "0001001001101010" },
+        { memoryAddress: "0003", machine_language_line: "0001001001101010" },
     ]);
+    const [program_counter, setProgramCounter] = useState(0);
+    //https://dev.to/brettblox/react-hooks-usestate-43en#:~:text=Updating%20Arrays%20and%20Objects,found%20in%20class%2Dbased%20components.
+    const [registers, setRegisters] = useState({
+        jerry: {
+            firstName: 'Jerry',
+            lastName: 'Garcia',
+            address: {
+                street: '710 Ashbury Street',
+                city: 'San Francisco',
+                state: 'CA',
+                zip: '94117'
+            }
+        },
+        jim: {
+            firstName: 'Jim',
+            lastName: 'Morrison',
+            address: {
+                street: '8021 Rothdell Trail',
+                city: 'Los Angeles',
+                state: 'CA',
+                zip: '90046'
+            }
+        }
 
-    const [memoryVal, setMemoryVal] = useState("");
-    const [searchVal, setSearchVal] = useState("");
-    const [loadVal, setLoadVal] = useState("");
-    const [loadedVal, setLoadedVal] = useState([]);
-    const [found, setFound] = useState("");
+    });
+    const [codeInput, setCodeInput] = useState('');
     const [x, changeX] = useState(10);
+    const [y, changeY] = useState(0)
 
+    useEffect(() => {
+
+    }, [y])
+
+    const handleRun = () => {
+
+        let line = memory[program_counter].machine_language_line;
+        let opcode = memory[program_counter].machine_language_line.substring(0, 4);
+        console.log(`opcode:${opcode}`)
+        console.log('running test func, y is currently 0')
+        test(y, changeY)
+        console.log(`y is now ${y}`)
+        switch (opcode) {
+
+            // ADD
+            case "0001":
+                // code block
+                //handleAdd(line)
+
+                break;
+            default:
+            // code block
+        }
+    }
 
 
     const renderTable = () => {
@@ -50,119 +97,38 @@ const App2 = () => {
         console.log(" re-rendering table");
     };
 
-    // handles the Add Button input
-    const handleInput = (e) => {
-        let randomNumSet = new Set();
-
-        //generate number. Set() does not let you have duplicates
-        for (let index = 0; index < 200; index++) {
-            randomNumSet.add(Math.floor(Math.random() * 100));
-        }
-
-        //grab the first 100 numbers in the array unique
-        let randomSetToArray = Array.from(randomNumSet).slice(0, 99);
-
-        e.preventDefault();
-        //loops through and adds the n to memoryAddress
-        // array spreading to push a new object with the memoryVal and memoryAddress
-
-        randomSetToArray.forEach((n) => {
-            if (memory.memoryAddress !== n) {
-                setMemory([
-                    ...memory,
-                    { memoryAddress: n, memoryVal: memoryVal, operation: 11 },
-                ]);
-                return;
-            }
-        });
-
-        //click twice to see the memory address
-        console.log(memory);
-        renderTable();
-    };
-
-    const handleFind = (e) => {
-        e.preventDefault();
-        // logic for taking the memory address and seeing if it matches any in the this.state.memory array
-
-        memory.find((m) => {
-            if (m.memoryAddress === parseInt(searchVal)) {
-                setFound(m.memoryVal);
-                let randomNumSet = new Set();
-
-                //generate number. Set() does not let you have duplicates
-                for (let index = 0; index < 200; index++) {
-                    randomNumSet.add(Math.floor(Math.random() * 100));
-                }
-
-                //grab the first 100 numbers in the array unique
-                let randomSetToArray = Array.from(randomNumSet).slice(0, 99);
-
-                //loops through and adds the n to memoryAddress
-                // array spreading to push a new object with the memoryVal and memoryAddress
-
-                randomSetToArray.forEach((n) => {
-                    if (memory.memoryAddress !== n) {
-                        setMemory([
-                            ...memory,
-                            { memoryAddress: n, memoryVal: memoryVal, operation: 10 },
-                        ]);
-                        return;
-                    }
-                });
-            }
-            console.log(memory);
-            renderTable()
-        });
+    const openCodeWindow = () => {
+        //Pop up window on click
+        console.log('test')
     }
 
-    // handles the input value for the first input
-    const handleAddChange = (e) => {
-        setMemoryVal(e.target.value);
-    };
+    const updateCode = (e) => {
+        setCodeInput(e.target.value)
+        console.log(codeInput)
+    }
 
-    // handles the input value for the second input
-    const handleFindChange = (e) => {
-        setSearchVal(e.target.value);
-    };
-
-    // handles input for the load value
-    const handleLoadChange = (e) => {
-        setLoadVal(e.target.value);
-    };
-    // handles the load value
-    const handleLoad = (e) => {
-        // click and saves it to available register
-        memory.find((m) => {
-            if (m.memoryAddress === parseInt(searchVal)) {
-                setFound(m.memoryVal);
-                let randomNumSet = new Set();
-
-                //generate number. Set() does not let you have duplicates
-                for (let index = 0; index < 200; index++) {
-                    randomNumSet.add(Math.floor(Math.random() * 100));
-                }
-
-                //grab the first 100 numbers in the array unique
-                let randomSetToArray = Array.from(randomNumSet).slice(0, 99);
-
-                //loops through and adds the n to memoryAddress
-                // array spreading to push a new object with the memoryVal and memoryAddress
-
-                randomSetToArray.forEach((n) => {
-                    if (memory.memoryAddress !== n) {
-                        setMemory([
-                            ...memory,
-                            { memoryAddress: n, memoryVal: memoryVal, operation: 20 },
-                        ]);
-                        return;
-                    }
-                });
+    const saveCode = (e) => {
+        //Save machine code that's entered into window
+        //COMMENTS ARE CURRENTLY NOT SUPPORTED
+        let userCode = codeInput.split('\n');
+        let addressCounter = 0;
+        // if the user puts more lines than we have current address's we push new spots until they are equal
+        userCode.forEach(u => {
+            //TODO add memory Address logic
+            if (userCode.length !== memory.length) {
+                setMemory([...memory, { memory_address: addressCounter, machine_language_line: u }])
+                addressCounter++;
             }
-            console.log(memory);
-            renderTable()
+            return
+        })
+
+        // the code line length should be equal to the amount of memory spots we have. So this just updates
+        memory.forEach((m, i) => {
+            let userInput = x[i] || null
+            setMemory(m.machine_language_line = userInput)
+
         });
-    };
+    }
 
     return (
         <MuiThemeProvider theme={mainTheme}>
@@ -172,7 +138,7 @@ const App2 = () => {
                 <div className={classes.container}>
                     <div className={classes.leftGrid}>
                         <RegisterAccumulator />
-                        <Console handleInput={handleInput} />
+                        <Console handleRun={handleRun} updateCode={updateCode} codeInput={codeInput} saveCode={saveCode} openCodeWindow={openCodeWindow} />
                     </div>
                     <div>
                         <AddressTable key={x} memory={memory} />
@@ -183,31 +149,37 @@ const App2 = () => {
     );
 };
 
-export default App2;
+export default App;
 
 /*
-<Container className="demo">
-                <h2> Add Value </h2>
-                <Input value={memoryVal} onChange={handleAddChange} />
-                <Button variant="contained" color="primary" onClick={handleInput}>
-                    Add
-        </Button>
-            </Container>
-            <Container>
-                <h2> Find Memory Value </h2>
-                <Input value={searchVal} onChange={handleFindChange} />
-                <Button variant="contained" color="primary" onClick={handleFind}>
-                    Find
-        </Button>
-            </Container>
-            {/* Can be confusing this means if found exists to show the html else skip the html}
-{ found && <h1 style={{ color: "green" }}> Found: {found} </h1> }
-<Container>
-    <h2> Load From Register</h2>
-    <Input value={loadVal} onChange={handleLoadChange} />
-    <Button variant="contained" color="primary" onClick={handleLoad}>
-        Loaded
-        </Button>
-    {/* will  have to loop through loadedValues and set them to a register }
-</Container>
-    */
+const handleAdd = (line) => {
+        let destination = line.substring(4, 7);
+        let source1 = line.substring(7, 10);
+        let immediate = line.substring(10, 11);
+        console.log(`dst:${destination} src:${source1} immediate:${line.substring(10, 11)}`)
+
+        if (parseInt(immediate)) {
+
+            let immediate_val = parseInt(line.substring(11), 2);
+            let reg = parseInt(destination)
+            console.log(`immediate value: ${immediate_val}`)
+            console.log(`destination: ${destination}`)
+            console.log(`to register: ${reg}`)
+            let destRegister = "r" + destination
+            console.log(`register: ${destRegister}`)
+
+            // ADD immediate_val to r1 (stored as a state in app.js)
+            // console.log(registers);
+
+
+            console.log(registers)
+        }
+        else {
+            console.log('not immediate mode')
+            let source2 = line.substring(line.length - 3)
+            console.log(source2)
+            // ADD source1 and source2 and then put that value in the destination register
+        }
+    }
+
+*/

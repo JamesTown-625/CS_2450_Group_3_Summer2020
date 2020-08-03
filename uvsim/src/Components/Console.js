@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import Paper from '@material-ui/core/Paper';
 import { Button, TextField } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
-
+import CodeWindow from "./CodeWindow"
 
 const useStyles = makeStyles({
     grid: {
@@ -38,28 +38,40 @@ const useStyles = makeStyles({
 });
 
 const Console = (props) => {
+
     const classes = useStyles()
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return (
-        <Paper elevation={10}>
-            <div className={classes.background}>
-                <div className={classes.consoleHeader}>
-                    <h2 style={{ justifySelf: 'center', color: 'white' }}>Console</h2>
+        <Fragment>
+            <Paper elevation={10}>
+                <div className={classes.background}>
+                    <div className={classes.consoleHeader}>
+                        <h2 style={{ justifySelf: 'center', color: 'white' }}>Console</h2>
+                    </div>
+                    <div className={classes.grid}>
+
+                    </div>
+                    <div >
+                        <Button onClick={handleOpen} color="secondary" variant="contained">Upload Machine Code</Button>
+                        {/*This needs to pop up window to add machine code */}
+                        <Button onClick={props.handleRun} color="secondary" variant="contained">Run</Button>
+
+                    </div>
                 </div>
-                <div className={classes.grid}>
-                    <p>{'>'} Add 2 to register ..  </p>
-                    <p>{'>'} Add value to value in register</p>
-                    <p>{'>'} Assign value from address X to address Y</p>
-                    <p>{'>'} Hello</p>
-                </div>
-                <div >
-                    <form className={classes.inputSection}>
-                        <TextField focused="true" autoFocus="true" variant="outlined" color="secondary" label="Input"></TextField>
-                        <Button onClick={props.handleInput} color="secondary" variant="contained">Submit</Button>
-                        {/*Right now this button hands one single opcode.. should eventually be different opcode based on input... */}
-                    </form>
-                </div>
-            </div>
-        </Paper>
+
+            </Paper>
+            <CodeWindow updateCode={props.updateCode} codeInput={props.codeInput} saveCode={props.saveCode} open={open} handleClose={handleClose} />
+        </Fragment>
     )
 }
 
