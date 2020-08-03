@@ -7,6 +7,7 @@ export function handleTrap(setRunning, consoleLines, setConsoleLines) {
     setConsoleLines,
     "Running a TRAP operation...."
   );
+  console.log("hit a TRAP HALT command, execution stopped");
   setRunning(false);
 }
 

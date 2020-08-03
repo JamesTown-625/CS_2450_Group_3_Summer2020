@@ -51,7 +51,7 @@ const App = () => {
     // { memoryAddress: 10, machine_language_line: "0010001001001010" },
   ]);
   const [registers, setRegisters] = useState({
-    r001: { value: 5 },
+    r001: { value: 0 },
     r010: { value: 0 },
     r011: { value: 0 },
     r100: { value: 0 },
@@ -60,11 +60,15 @@ const App = () => {
     r111: { value: 0 },
   });
   const [addressCounter, setAddressCounter] = useState(0);
-  const [program_counter, setProgramCounter] = useState(0);
+  // const [program_counter, setProgramCounter] = useState(0);
   const [codeInput, setCodeInput] = useState("");
   const [x, changeX] = useState(10);
   const [consoleLines, setConsoleLines] = useState([]);
-  const [running, setRunning] = useState(false);
+  let running = false;
+  const setRunning = (bool) => {
+    running = bool;
+  };
+  let program_counter = 0;
 
   useEffect(() => {
     // Update the document title using the browser API
@@ -84,48 +88,46 @@ const App = () => {
       "calling handleRun"
     );
 
-    // THIS DOESN'T WORK
-    setRunning(true);
+    running = true;
     console.log(`state- running: ${running}`);
     while (running == true) {
-      console.log("loop iteration");
       let line = memory[program_counter].machine_language_line;
-      let opcode = memory[program_counter].machine_language_line.substring(
-        0,
-        4
-      );
-      switch (opcode) {
-        // ADD
-        case "0001":
-          handleAdd(line, registers, setRegisters);
-          break;
-        // TRAP
-        case "1111":
-          handleTrap(setRunning, consoleLines, setConsoleLines);
-          break;
-
-        // NON LC3 NATIVE OPCODES (added functionality)
-        case "0002":
-          handleSubtract(line, registers, setRegisters);
-          break;
-        case "0003":
-          handleMultiply(line, registers, setRegisters);
-          break;
-        case "0004":
-          handleDivide(line, registers, setRegisters);
-          break;
-        case "0005":
-          handleModulus(line, registers, setRegisters);
-          break;
-        case "0006":
-          handleExponent(line, registers, setRegisters);
-          break;
-        default:
-      }
-      setProgramCounter(program_counter + 1);
+      console.log(`loop iteration  PC:${program_counter} CURRENT LINE:${line}`);
+      executeOperation();
     }
+  };
+  const executeOperation = () => {
+    let line = memory[program_counter].machine_language_line;
+    let opcode = memory[program_counter].machine_language_line.substring(0, 4);
+    switch (opcode) {
+      // ADD
+      case "0001":
+        handleAdd(line, registers, setRegisters);
+        break;
+      // TRAP
+      case "1111":
+        handleTrap(setRunning, consoleLines, setConsoleLines);
+        break;
 
-    // console.log(memory)
+      // NON LC3 NATIVE OPCODES (added functionality)
+      case "0002":
+        handleSubtract(line, registers, setRegisters);
+        break;
+      case "0003":
+        handleMultiply(line, registers, setRegisters);
+        break;
+      case "0004":
+        handleDivide(line, registers, setRegisters);
+        break;
+      case "0005":
+        handleModulus(line, registers, setRegisters);
+        break;
+      case "0006":
+        handleExponent(line, registers, setRegisters);
+        break;
+      default:
+    }
+    program_counter++;
   };
 
   // simply function to update the value need to trigger rerender
@@ -163,12 +165,18 @@ const App = () => {
     //Save machine code that's entered into window
     //COMMENTS ARE CURRENTLY NOT SUPPORTED
     let userCode = codeInput.split("\n");
+    let filteredLines = [];
+    userCode.forEach((line) => {
+      if (line.search("@") == -1) {
+        filteredLines.push(line);
+      }
+    });
     let addressCounter = 0;
     // if the user puts more lines than we have current address's we push new spots until they are equal
-    userCode.forEach((u) => {
+    filteredLines.forEach((u) => {
       //TODO add memory Address logic
       //userCode.length < 1000)
-      if (userCode.length !== memory.length) {
+      if (filteredLines.length !== memory.length) {
         setMemory([
           ...memory,
           {
@@ -176,12 +184,13 @@ const App = () => {
             machine_language_line: u,
           },
         ]);
+
+        updateMemory(filteredLines);
+        return;
       }
-      updateMemory(userCode);
-      return;
     });
     // the code line length should be equal to the amount of memory spots we have. So this just updates
-    updateMemory(userCode);
+    updateMemory(filteredLines);
   };
 
   return (
