@@ -14,7 +14,8 @@ const useStyles = makeStyles({
         gridTemplateColumns: '1fr',
         gridAutoRows: '40px',
         padding: '5px',
-        border: 'solid black 2px'
+        border: 'solid black 2px',
+        backgroundColor: 'black',
 
     },
     background: {
@@ -64,9 +65,9 @@ const Console = (props) => {
                         <h2 style={{ justifySelf: 'center', color: 'white' }}>Console</h2>
                     </div>
                     <div className={classes.grid}>
-                        <p style={{ textAlign: 'center' }}>------- Starting BasicML Program -------</p>
+                        <p style={{ textAlign: 'center', color: 'green' }}>------- Starting BasicML Program -------</p>
                         {props.consoleLines.map((row, index) => (
-                            <p >{row}</p>
+                            <p style={{ color: 'green' }}>{row}</p>
                         ))}
                     </div>
                 </div>
