@@ -84,7 +84,7 @@ const App = () => {
       "calling handleRun"
     );
 
-    // THIS DOESN"T WORK
+    // THIS DOESN'T WORK
     setRunning(true);
     console.log(`state- running: ${running}`);
     while (running == true) {
