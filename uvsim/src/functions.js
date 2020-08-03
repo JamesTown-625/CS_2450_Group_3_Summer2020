@@ -50,88 +50,6 @@ export function handleStore() {
 
 }
 
-export function handleAdd(line, registers, setRegisters) {
-    let destination = line.substring(4, 7);
-    let source1 = line.substring(7, 10);
-    let immediate = line.substring(10, 11);
-    console.log(`dst:${destination} src:${source1} immediate:${line.substring(10, 11)}`)
-
-    if (parseInt(immediate)) {
-
-        let immediate_val = parseInt(line.substring(11), 2);
-        let reg = parseInt(destination)
-        console.log(`immediate value: ${immediate_val}`)
-        console.log(`destination: ${destination}`)
-        console.log(`to register: ${reg}`)
-
-        console.log(`register: ${destRegister}`)
-
-        // ADD immediate_val to r1 (stored as a state in app.js)
-
-        console.log(registers)
-
-        setRegisters({
-            ...registers,
-            // Overwrite person you want to update
-            jerry: {
-                // Copy Jerry's existing properties
-                ...registers.jerry,
-                // Overwrite Jerry's address  
-                address: {
-                    // Copy everything over from Jerry's original address
-                    ...registers.jerry.address,
-                    // Update the street
-                    street: '712 Ashbury Street'
-                }
-            }
-        }
-        )
-        console.log(registers)
-        let destRegister = "r" + destination
-        console.log(`register: ${destRegister}`)
-
-        // ADD immediate_val to r1 (stored as a state in app.js)
-
-        console.log(registers)
-
-        setRegisters({
-            ...registers,
-            // Overwrite person you want to update
-            jerry: {
-                // Copy Jerry's existing properties
-                ...registers.jerry,
-                // Overwrite Jerry's address  
-                address: {
-                    // Copy everything over from Jerry's original address
-                    ...registers.jerry.address,
-                    // Update the street
-                    street: '712 Ashbury Street'
-                }
-            }
-        }
-        )
-        console.log(registers)
-    }
-    else {
-        console.log('not immediate mode')
-        let source2 = line.substring(line.length - 3)
-        console.log(source2)
-        // ADD source1 and source2 and then put that value in the destination register
-    }
-}
-
-export function handleSubtract() {
-
-}
-
-export function handleMultipy() {
-
-}
-
-export function handleDivide() {
-
-}
-
 export function handleBranch() {
 
 }
@@ -161,8 +79,15 @@ export function handleContinue() {
 
 }
 
-export function test(y, changeY) {
-    return changeY(100)
+export function printUsedFunctionToConsole(consoleLines, setConsoleLines, str) {
+    if (consoleLines.length >= 7) {
+        consoleLines.splice(0, 1)
+        setConsoleLines([...consoleLines])
+        setConsoleLines([...consoleLines, str])
+        console.log("if", consoleLines)
+    } else {
+        setConsoleLines([...consoleLines, str])
+    }
 }
 
 /*
