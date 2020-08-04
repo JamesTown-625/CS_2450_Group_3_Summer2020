@@ -13,7 +13,7 @@ const useStyles = makeStyles({
   },
   background: {},
   registerHeader: {
-    backgroundColor: "black",
+    backgroundColor: "#263238",
     textAlign: "center",
     display: "grid",
     alignItems: "center",

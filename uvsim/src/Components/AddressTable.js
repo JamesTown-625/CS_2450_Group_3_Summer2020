@@ -24,7 +24,7 @@ const useStyles = makeStyles({
     },
     test: {
         overflow: "auto",
-        height: "553px",
+        height: "595px",
     },
     headerCell: {
         colspan: "2",
@@ -32,7 +32,7 @@ const useStyles = makeStyles({
     tableTitleBackground: {
         height: "67px",
         display: "grid",
-        backgroundColor: "black",
+        backgroundColor: "#263238",
     },
     tableTitle: {
         alignSelf: "center",
@@ -52,7 +52,7 @@ const AddressTable = (props) => {
 
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(9);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.memory.length - page * rowsPerPage);
 
     const handleChangePage = (event, newPage) => {

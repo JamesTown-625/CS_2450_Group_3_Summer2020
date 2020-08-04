@@ -4,10 +4,13 @@ import { createMuiTheme } from '@material-ui/core/styles';
 export default createMuiTheme({
     palette: {
         primary: {
-            main: '#000000'
+            main: '#263238'
         },
         secondary: {
-            main: '#FFFFFF'
+            main: '#EEEEEE'
+        },
+        action: {
+            main: '#263238'
         }
     },
     overrides: {
@@ -21,6 +24,15 @@ export default createMuiTheme({
                 color: ''
             }
         },
+        MuiSvgIcon: {
+            root: {
+                color: '#263238',
+
+            },
+            fontSizeLarge: {
+                fontSize: '3rem'
+            }
+        }
 
     }
 });
