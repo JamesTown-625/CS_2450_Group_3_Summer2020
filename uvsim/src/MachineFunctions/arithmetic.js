@@ -41,12 +41,12 @@ export function handleAdd(line, registers, setRegisters) {
   let destination = "r" + line.substring(4, 7);
   let source1 = "r" + line.substring(7, 10);
   let source1Val = registers[source1].value;
-  console.log(registers[source1].value);
   let immediate = line.substring(10, 11);
   let newVal;
-  console.log(
-    `dst:${destination} src:${source1} immediate:${line.substring(10, 11)}`
-  );
+  //   console.log(
+  //     `dst:${destination} src:${source1} immediate:${line.substring(10, 11)}`
+  //   );
+
   if (parseInt(immediate)) {
     let immediate_val = parseInt(line.substring(11), 2);
     // ADD immediate_val to source1 register val (stored as a state in app.js)
@@ -61,6 +61,9 @@ export function handleAdd(line, registers, setRegisters) {
     let source2Register = "r" + line.substring(line.length - 3);
     let source2Val = registers[source2Register].value;
     newVal = source1Val + source2Val;
+    console.log(
+      `source1val ${source1Val} source2val ${source2Val} newval ${newVal}`
+    );
     // ADD source1 and source2 and then put that value in the destination register
     setRegisters({
       ...registers,
@@ -105,7 +108,7 @@ export function handleSubtract(line, registers, setRegisters) {
 export function handleMultiply(line, registers, setRegisters) {
   let destination = "r" + line.substring(4, 7);
   let source1 = "r" + line.substring(7, 10);
-  let source1Val = registers.source1.value;
+  let source1Val = registers[source1].value;
   let immediate = line.substring(10, 11);
   let newVal;
   if (parseInt(immediate)) {
@@ -135,7 +138,7 @@ export function handleMultiply(line, registers, setRegisters) {
 export function handleDivide(line, registers, setRegisters) {
   let destination = "r" + line.substring(4, 7);
   let source1 = "r" + line.substring(7, 10);
-  let source1Val = registers.source1.value;
+  let source1Val = registers[source1].value;
   let immediate = line.substring(10, 11);
   let newVal;
   if (parseInt(immediate)) {
@@ -165,7 +168,7 @@ export function handleDivide(line, registers, setRegisters) {
 export function handleModulus(line, registers, setRegisters) {
   let destination = "r" + line.substring(4, 7);
   let source1 = "r" + line.substring(7, 10);
-  let source1Val = registers.source1.value;
+  let source1Val = registers[source1].value;
   let immediate = line.substring(10, 11);
   let newVal;
   if (parseInt(immediate)) {
@@ -195,7 +198,7 @@ export function handleModulus(line, registers, setRegisters) {
 export function handleExponent(line, registers, setRegisters) {
   let destination = "r" + line.substring(4, 7);
   let source1 = "r" + line.substring(7, 10);
-  let source1Val = registers.source1.value;
+  let source1Val = registers[source1].value;
   let immediate = line.substring(10, 11);
   let newVal;
   if (parseInt(immediate)) {

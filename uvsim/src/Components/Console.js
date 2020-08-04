@@ -82,6 +82,13 @@ const Console = (props) => {
           <Button onClick={props.handleRun} color="primary" variant="contained">
             Run
           </Button>
+          <Button
+            onClick={props.handleStep}
+            color="primary"
+            variant="contained"
+          >
+            Step
+          </Button>
         </div>
       </Paper>
       <CodeWindow

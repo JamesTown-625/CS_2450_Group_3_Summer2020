@@ -42,7 +42,6 @@ const RegisterAccumulator = (props) => {
       </div>
       <div className={classes.grid}>
         <span className={classes.span}>
-          <strong>PC:</strong> {props.pc}
           <strong> Register1:</strong> {props.registers.r001.value}
           <strong> Register2:</strong> {props.registers.r010.value}
           <strong> Register3:</strong> {props.registers.r011.value}

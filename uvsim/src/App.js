@@ -89,16 +89,19 @@ const App = () => {
     );
 
     running = true;
-    console.log(`state- running: ${running}`);
     while (running == true) {
       let line = memory[program_counter].machine_language_line;
       console.log(`loop iteration  PC:${program_counter} CURRENT LINE:${line}`);
       executeOperation();
     }
   };
+  const handleStep = () => {
+    executeOperation();
+  };
   const executeOperation = () => {
     let line = memory[program_counter].machine_language_line;
     let opcode = memory[program_counter].machine_language_line.substring(0, 4);
+    console.log(`pc ${program_counter} line ${line}`);
     switch (opcode) {
       // ADD
       case "0001":
@@ -200,9 +203,10 @@ const App = () => {
         <div>Test</div>
         <div className={classes.container}>
           <div className={classes.leftGrid}>
-            <RegisterAccumulator registers={registers} pc={program_counter} />
+            <RegisterAccumulator registers={registers} />
             <Console
               handleRun={handleRun}
+              handleStep={handleStep}
               updateCode={updateCode}
               codeInput={codeInput}
               saveCode={saveCode}
