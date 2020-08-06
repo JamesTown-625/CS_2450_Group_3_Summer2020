@@ -1,0 +1,14 @@
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  margin-top: 100px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 30px;
+}
+
+.leftGrid {
+  display: grid;
+  grid-auto-rows: auto;
+  grid-gap: 30px;
+}

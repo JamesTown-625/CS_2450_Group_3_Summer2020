@@ -67,14 +67,11 @@ const App = () => {
   const [codeInput, setCodeInput] = useState("");
   const [x, changeX] = useState(10);
   const [consoleLines, setConsoleLines] = useState([]);
-  //const [running, setRunning] = useState(false)
+const [running, setRunning] = useState(false);
   const [loading, setLoading] = useState(false);
-  let running = false;
-  const setRunning = (bool) => {
-    running = bool;
-  };
-
+  const [clicked, setClicked] = useState(false);
   const [open, setOpen] = React.useState(false);
+  // const [step, setStep] = useState(false)
 
   const handleOpen = () => {
     setOpen(true);
@@ -86,7 +83,6 @@ const App = () => {
 
   useEffect(() => {
     // Update the document title using the browser API
-    console.log("rerendering");
     for (let i = 0; i <= 1000; i++) {
       setMemory((memory) => [
         ...memory,
@@ -95,62 +91,80 @@ const App = () => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log("running getData()");
-    //getData().then(data => setRunning(data))
-  }, [loading]);
+  // useEffect(() => {
+  //     // if (memory[program_counter]) {
+  //     //     let line = memory[program_counter].machine_language_line;
+  //     //     console.log(`loop iteration  PC:${program_counter} CURRENT LINE:${line}`);
+  //     //     executeOperation();
+  //     //     console.log("running:", running)
+  //     // }
+  //     setTimeout(() => {
+  //         console.log('timeout')
+  //         handleRun()
+  //     }, 3000)
 
-  const getData = () => {
-    const promise = Promise.resolve(true);
-    return promise;
-  };
+  // }, [clicked])
+
+  // useEffect(() => {
+  //     setProgramCounter(program_counter => program_counter + 1)
+
+  // }, [])
 
   const handleRun = () => {
-    printUsedFunctionToConsole(
-      consoleLines,
-      setConsoleLines,
-      "calling handleRun"
-    );
-
-    //setLoading(true)
-    running = true;
+    // printUsedFunctionToConsole(
+    //     consoleLines,
+    //     setConsoleLines,
+    //     "calling handleRun"
+    // );
+    setTimeout(() => {
+      setRunning(!running);
+      while (running == true) {
+        let line = memory[program_counter].machine_language_line;
+        console.log(
+          `loop iteration  PC:${program_counter} CURRENT LINE:${line}`
+        );
+        executeOperation();
+      }
+    }, 3000);
 
     while (running == true) {
+      console.debug();
       let line = memory[program_counter].machine_language_line;
       console.log(`loop iteration  PC:${program_counter} CURRENT LINE:${line}`);
       executeOperation();
     }
+    console.log("outside of the while loop running", running);
   };
 
   const handleStep = () => {
     console.log(addressCounter);
-    if (memory[program_counter].machine_language_line) {
-      executeOperation();
-    }
+    executeOperation();
   };
 
   const executeOperation = () => {
+    setProgramCounter(program_counter + 1);
+    console.log("reached setProgramCounter", program_counter);
+
     let line = memory[program_counter].machine_language_line;
+
     let opcode = memory[program_counter].machine_language_line.substring(0, 4);
+
     /*
 0011000000000000
 0001001001101010
 0001010001000010
 1111000000100101
-        */
-    console.log(`pc ${program_counter} line ${line}`);
+*/
     switch (opcode) {
       // ADD
       case "0001":
-        console.log(running);
         handleAdd(line, registers, setRegisters);
         break;
       // TRAP
       case "1111":
-        console.log(running);
-        handleTrap(setRunning, consoleLines, setConsoleLines);
+        console.log(`trap running ${running}`);
+        // handleTrap(setRunning, consoleLines, setConsoleLines);
         break;
-
       // NON LC3 NATIVE OPCODES (added functionality)
       case "0002":
         handleSubtract(line, registers, setRegisters);
@@ -167,10 +181,10 @@ const App = () => {
       case "0006":
         handleExponent(line, registers, setRegisters);
         break;
-      default:
     }
     //program_counter++;
-    setProgramCounter(program_counter + 1);
+
+    //setStep(step + 1)
   };
 
   // simply function to update the value need to trigger rerender
@@ -195,7 +209,6 @@ const App = () => {
     );
 
     setCodeInput(e.target.value);
-    console.log(codeInput);
   };
 
   const saveCode = (e) => {
@@ -205,16 +218,7 @@ const App = () => {
       "calling saveCode"
     );
 
-    console.log("##########################################");
-    //Save machine code that's entered into window
     let userCode = codeInput.split("\n");
-    console.log(`code input-\n${codeInput}`);
-    console.log(userCode[0]);
-    console.log(userCode[1]);
-    console.log(userCode[2]);
-    console.log(userCode[3]);
-    console.log("##########################################");
-    // userCode.forEach((line) => { console.log(line); });
     let filteredLines = [];
     userCode.forEach((line) => {
       if (line.search("@") == -1) {
@@ -252,6 +256,8 @@ const App = () => {
           <div className={classes.leftGrid}>
             <RegisterAccumulator registers={registers} />
             <Console
+              clicked={clicked}
+              // setClicked={setClicked}
               handleRun={handleRun}
               handleStep={handleStep}
               updateCode={updateCode}
