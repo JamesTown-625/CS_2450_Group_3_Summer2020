@@ -67,7 +67,7 @@ const App = () => {
   const [codeInput, setCodeInput] = useState("");
   const [x, changeX] = useState(10);
   const [consoleLines, setConsoleLines] = useState([]);
-  const [running, setRunning] = useState(false);
+const [running, setRunning] = useState(false);
   const [loading, setLoading] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [open, setOpen] = React.useState(false);
