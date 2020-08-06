@@ -42,13 +42,14 @@ const RegisterAccumulator = (props) => {
       </div>
       <div className={classes.grid}>
         <span className={classes.span}>
-          <strong> Register1:</strong> {props.registers.r001.value}
-          <strong> Register2:</strong> {props.registers.r010.value}
-          <strong> Register3:</strong> {props.registers.r011.value}
-          <strong> Register4:</strong> {props.registers.r100.value}
-          <strong> Register5:</strong> {props.registers.r101.value}
-          <strong> Register6:</strong> {props.registers.r110.value}
-          <strong> Register7:</strong> {props.registers.r111.value}
+          <strong> Register1:</strong> {props.registers["r001"]["value"]}
+          <strong> Register2:</strong> {props.registers["r010"]["value"]}
+          {/* <strong> Register1:</strong> {props.registers["r001"].value}
+          <strong> Register3:</strong> {props.registers["r011"].value}
+          <strong> Register4:</strong> {props.registers["r100"].value}
+          <strong> Register5:</strong> {props.registers["r101"].value}
+          <strong> Register6:</strong> {props.registers["r110"].value}
+          <strong> Register7:</strong> {props.registers["r111"].value} */}
         </span>
       </div>
     </Paper>
