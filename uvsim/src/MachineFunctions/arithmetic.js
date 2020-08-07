@@ -41,12 +41,12 @@ export function handleAnd(line, registers, setRegisters, setConsoleLines) {
 }
 
 export function handleAdd(line, registers) {
-  console.log(registers);
+  // console.log(registers);
   let destination = "r" + line.substring(4, 7);
   let source1 = "r" + line.substring(7, 10);
   console.log(
-    `source1: ${source1}, 'registers', ${JSON.stringify(
-      registers[source1]["value"]
+    `source1: ${source1}, 'registers source value-', ${JSON.stringify(
+      registers[source1]
     )}`
   );
   /* TEST CODE 
@@ -54,7 +54,7 @@ export function handleAdd(line, registers) {
 0001010001000010
 1111000000100101
 */
-  let source1Val = registers[source1].value;
+  let source1Val = registers[source1];
   let immediate = line.substring(10, 11);
   let newVal;
   console.log("In handleAdd");

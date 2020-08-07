@@ -1,6 +1,12 @@
 import React, { Fragment, useEffect } from "react";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 
 const useStyles = makeStyles({
   grid: {
@@ -42,14 +48,50 @@ const RegisterAccumulator = (props) => {
       </div>
       <div className={classes.grid}>
         <span className={classes.span}>
-          <strong> Register1:</strong> {props.registers["r001"]["value"]}
-          <strong> Register2:</strong> {props.registers["r010"]["value"]}
-          {/* <strong> Register1:</strong> {props.registers["r001"].value}
-          <strong> Register3:</strong> {props.registers["r011"].value}
-          <strong> Register4:</strong> {props.registers["r100"].value}
-          <strong> Register5:</strong> {props.registers["r101"].value}
-          <strong> Register6:</strong> {props.registers["r110"].value}
-          <strong> Register7:</strong> {props.registers["r111"].value} */}
+          <TableContainer component={Paper}>
+            <Table
+              className={classes.table}
+              size="small"
+              aria-label="a dense table"
+            >
+              <TableHead>
+                <TableRow>
+                  <TableCell align="right">r1</TableCell>
+                  <TableCell align="right">r2</TableCell>
+                  <TableCell align="right">r3</TableCell>
+                  <TableCell align="right">r4</TableCell>
+                  <TableCell align="right">r5</TableCell>
+                  <TableCell align="right">r6</TableCell>
+                  <TableCell align="right">r7</TableCell>
+                  <TableCell align="right">pc</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow key={1}>
+                  <TableCell align="right">{props.registers["r001"]}</TableCell>
+                  {/* <TableCell align="right">
+                    {props.registers["r010"]["value"]}
+                  </TableCell>
+                  <TableCell align="right">
+                    {props.registers["r011"]["value"]}
+                  </TableCell>
+                  <TableCell align="right">
+                    {props.registers["r100"]["value"]}
+                  </TableCell>
+                  <TableCell align="right">
+                    {props.registers["r101"]["value"]}
+                  </TableCell>
+                  <TableCell align="right">
+                    {props.registers["r110"]["value"]}
+                  </TableCell>
+                  <TableCell align="right">
+                    {props.registers["r111"]["value"]}
+                  </TableCell> */}
+                  <TableCell align="right">{props.pc}</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
         </span>
       </div>
     </Paper>

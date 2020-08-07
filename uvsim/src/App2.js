@@ -26,7 +26,7 @@ export default class App2 extends React.Component {
   state = {
     memory: [],
     registers: {
-      r001: { value: 0 },
+      r001: 0,
       r010: { value: 0 },
       r011: { value: 0 },
       r100: { value: 0 },
@@ -82,24 +82,19 @@ export default class App2 extends React.Component {
     switch (opcode) {
       // ADD
       case "0001":
-        console.log(running);
+        // console.log(running);
 
         //TODO:instead of handleFoo(line,foo,setFOo), pass in state
         const add = handleAdd(line, registers);
-        console.log(add);
+
         let value = add.newVal;
+        console.log(`heres the mf value ${value}`);
         let destination = add.destination;
-        // this.setState({
-        //   registers: {
-        //     destination: {
-        //       value: value,
-        //     },
-        //   },
-        // });
+        console.log(`destination:${destination}`);
+
         this.setState({
-          registers: { ...registers[destination], value },
+          registers: { ...registers, destination: value },
         });
-        console.log(registers);
 
         break;
       // TRAP
@@ -135,8 +130,8 @@ export default class App2 extends React.Component {
     //program_counter++;
     //TODO: change to this.setState
     this.setState({ program_counter: program_counter + 1 });
-
-    console.log("reached setProgramCounter");
+    console.log("\n\n\n\n\n\n\n");
+    // console.log("reached setProgramCounter");
     //setStep(step + 1)
   };
 
@@ -183,7 +178,7 @@ export default class App2 extends React.Component {
   };
 
   handleStep = () => {
-    console.log(this.state.registers);
+    // console.log(this.state.registers);
     this.executeOperation();
   };
 
@@ -201,30 +196,32 @@ export default class App2 extends React.Component {
 
     let filteredLines = [];
     let userCode = codeInput.split("\n");
-    const updatedMemo = memory.map((m, i) => ({
-      memoryAddress: i,
-      machine_language_line: userCode[i],
-    }));
-
+    // filter out comments
     userCode.forEach((line) => {
       if (line.search("@") == -1) {
         filteredLines.push(line.trim());
       }
     });
+    // prepare data address object
+    const updatedMemo = memory.map((m, i) => ({
+      memoryAddress: i,
+      machine_language_line: filteredLines[i],
+    }));
 
+    // update the state with the new data address object
     this.setState({
       memory: updatedMemo,
       addressCounter: addressCounter + 1,
     });
 
-    console.log(
-      "userCode",
-      userCode,
-      "memory",
-      memory,
-      "updatedMemo",
-      updatedMemo
-    );
+    // console.log(
+    //   "userCode",
+    //   userCode,
+    //   "memory",
+    //   memory,
+    //   "updatedMemo",
+    //   updatedMemo
+    // );
   };
 
   render() {
@@ -237,7 +234,10 @@ export default class App2 extends React.Component {
           <div>Test</div>
           <div className="container">
             <div className="leftGrid">
-              <RegisterAccumulator registers={this.state.registers} />
+              <RegisterAccumulator
+                registers={this.state.registers}
+                pc={this.state.program_counter}
+              />
               <Console
                 // setClicked={setClicked}
                 //TODO: change to this.setState
@@ -264,9 +264,9 @@ export default class App2 extends React.Component {
             marginBottom: "30px",
           }}
         >
-          <HelpIcon fontSize="large" />
+          <HelpIcon onClick={this.handleOpen} fontSize="large" />
         </Button>
-        <HelpScreen open={this.open} handleClose={this.handleClose} />
+        <HelpScreen open={this.state.open} handleClose={this.handleClose} />
       </MuiThemeProvider>
     );
   }
