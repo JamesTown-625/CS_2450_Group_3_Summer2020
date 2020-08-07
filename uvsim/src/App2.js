@@ -26,7 +26,7 @@ export default class App2 extends React.Component {
   state = {
     memory: [],
     registers: {
-      r001: 0,
+      r001: { value: 0 },
       r010: { value: 0 },
       r011: { value: 0 },
       r100: { value: 0 },
@@ -65,20 +65,15 @@ export default class App2 extends React.Component {
   }
 
   executeOperation = () => {
-    const { memory, program_counter, running, registers } = this.state;
+    const { memory, running, registers } = this.state;
+    let newRegisterList = this.state.registers;
     console.log("in executeOperation");
     let line = memory[this.state.program_counter].machine_language_line;
     let opcode = memory[
       this.state.program_counter
     ].machine_language_line.substring(0, 4);
 
-    /*
-    0011000000000000
-    0001001001101010
-    0001010001000010
-    1111000000100101
-        */
-    console.log(`pc ${program_counter} line ${line}`);
+    console.log(`pc ${this.state.program_counter} line ${line}`);
     switch (opcode) {
       // ADD
       case "0001":
@@ -91,9 +86,11 @@ export default class App2 extends React.Component {
         console.log(`heres the mf value ${value}`);
         let destination = add.destination;
         console.log(`destination:${destination}`);
+        newRegisterList[destination].value = value;
+        console.log(newRegisterList);
 
         this.setState({
-          registers: { ...registers, destination: value },
+          registers: newRegisterList,
         });
 
         break;
@@ -129,37 +126,60 @@ export default class App2 extends React.Component {
     }
     //program_counter++;
     //TODO: change to this.setState
-    this.setState({ program_counter: program_counter + 1 });
+    let tempCounter = this.state.program_counter;
+    tempCounter = tempCounter + 1;
+    /*
+0011000000000000
+0001001001101010
+0001010001000010
+1111000000100101
+        */
+    const { program_counter } = this.state;
+
+    this.setState({ ...program_counter, program_counter: program_counter + 1 });
+
     console.log("\n\n\n\n\n\n\n");
     // console.log("reached setProgramCounter");
     //setStep(step + 1)
   };
 
   handleRun = () => {
-    const { running, memory, program_counter } = this.state;
+    const { running, memory } = this.state;
+
     // printUsedFunctionToConsole(
     //     consoleLines,
     //     setConsoleLines,
     //     "calling handleRun"
     // );
 
+    //this.setState({ ...running, running: true });
+    // this.setState({ running: true }, () => {
+    //   const { running } = this.state;
+    //   console.log("running is: ", running);
+    //   while (running == true) {
+    //     console.log("Running is true");
+    //     let line = memory[this.state.program_counter].machine_language_line;
+    //     console.log(
+    //       `loop iteration  PC:${this.state.program_counter} CURRENT LINE:${line}`
+    //     );
+    //     this.executeOperation();
+    //   }
+    // });
     setTimeout(() => {
-      //TODO: change to this.setState
-      this.setState({ running: !running });
-
-      while (running == true) {
-        let line = memory[program_counter].machine_language_line;
-        console.log(
-          `loop iteration  PC:${program_counter} CURRENT LINE:${line}`
-        );
-        this.executeOperation();
-      }
+      () => {
+        console.log("okay tryyyyy");
+        this.setState((state) => ({
+          running: !state.running,
+        }));
+      };
     }, 3000);
 
     while (running == true) {
-      let line = this.state.memory[this.state.program_counter]
-        .machine_language_line;
-      console.log(`loop iteration  PC:${program_counter} CURRENT LINE:${line}`);
+      console.log("Running is true");
+      let line = memory[this.state.program_counter].machine_language_line;
+      console.log(
+        `loop iteration  PC:${this.state.program_counter} CURRENT LINE:${line}`
+      );
       this.executeOperation();
     }
   };
@@ -178,8 +198,10 @@ export default class App2 extends React.Component {
   };
 
   handleStep = () => {
-    // console.log(this.state.registers);
-    this.executeOperation();
+    const { memory, program_counter } = this.state;
+    memory[program_counter]["machine_language_line"]
+      ? this.executeOperation()
+      : console.log("end of program");
   };
 
   updateCode = (e) => {

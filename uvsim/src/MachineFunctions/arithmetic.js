@@ -44,20 +44,21 @@ export function handleAdd(line, registers) {
   // console.log(registers);
   let destination = "r" + line.substring(4, 7);
   let source1 = "r" + line.substring(7, 10);
-  console.log(
-    `source1: ${source1}, 'registers source value-', ${JSON.stringify(
-      registers[source1]
-    )}`
-  );
+
   /* TEST CODE 
 0001001001101010
 0001010001000010
 1111000000100101
 */
-  let source1Val = registers[source1];
+  let source1Val = registers[source1].value;
   let immediate = line.substring(10, 11);
   let newVal;
   console.log("In handleAdd");
+  console.log(
+    `source1: ${source1} source1Val ${source1Val}, 'registers source value-', ${JSON.stringify(
+      registers[source1]
+    )}`
+  );
 
   //   console.log(
   //     `dst:${destination} src:${source1} immediate:${line.substring(10, 11)}`

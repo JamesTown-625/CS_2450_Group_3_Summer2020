@@ -67,8 +67,10 @@ const RegisterAccumulator = (props) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow key={1}>
-                  <TableCell align="right">{props.registers["r001"]}</TableCell>
+                <TableRow>
+                  <TableCell align="right">
+                    {props.registers["r001"]["value"]}
+                  </TableCell>
                   <TableCell align="right">
                     {props.registers["r010"]["value"]}
                   </TableCell>
