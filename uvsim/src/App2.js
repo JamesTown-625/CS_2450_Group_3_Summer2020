@@ -165,23 +165,28 @@ export default class App2 extends React.Component {
     //     this.executeOperation();
     //   }
     // });
-    setTimeout(() => {
-      () => {
-        console.log("okay tryyyyy");
-        this.setState((state) => ({
-          running: !state.running,
-        }));
-      };
-    }, 3000);
+    // this.setState((state) => ({
+    //   running: true
+    // }));
 
-    while (running == true) {
-      console.log("Running is true");
-      let line = memory[this.state.program_counter].machine_language_line;
-      console.log(
-        `loop iteration  PC:${this.state.program_counter} CURRENT LINE:${line}`
-      );
-      this.executeOperation();
-    }
+    this.setState({running: true})
+    setTimeout(() => {
+      
+        console.log("okay tryyyyy");
+        while (this.state.running == true) {
+          console.log("Running is true");
+          let line = memory[this.state.program_counter].machine_language_line;
+          console.log(
+            `loop iteration  PC:${this.state.program_counter} CURRENT LINE:${line}`
+          );
+          this.executeOperation();
+        }
+       
+      
+    }, 1000);
+    
+
+    
   };
 
   //Open Help Window
