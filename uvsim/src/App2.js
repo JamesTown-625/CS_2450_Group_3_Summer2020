@@ -65,6 +65,7 @@ export default class App2 extends React.Component {
   }
 
   executeOperation = () => {
+    let value, destination;
     const { memory, running, registers } = this.state;
     let newRegisterList = this.state.registers;
     console.log("in executeOperation");
@@ -77,52 +78,69 @@ export default class App2 extends React.Component {
     switch (opcode) {
       // ADD
       case "0001":
-        // console.log(running);
-
-        //TODO:instead of handleFoo(line,foo,setFOo), pass in state
         const add = handleAdd(line, registers);
-
-        let value = add.newVal;
-        console.log(`heres the mf value ${value}`);
-        let destination = add.destination;
-        console.log(`destination:${destination}`);
+        value = add.newVal;
+        destination = add.destination;
         newRegisterList[destination].value = value;
-        console.log(newRegisterList);
-
         this.setState({
           registers: newRegisterList,
         });
-
         break;
+
       // TRAP
       case "1111":
         console.log(`trap running ${running}`);
-        //TODO:instead of handleFoo(line,foo,setFOo), pass in state
-
         this.setState({ running: false });
         break;
+
       // NON LC3 NATIVE OPCODES (added functionality)
-      //   case "0002":
-      //     //TODO:instead of handleFoo(line,foo,setFOo), pass in state
-      //     handleSubtract(line, registers, setRegisters);
-      //     break;
-      //   case "0003":
-      //     //TODO:instead of handleFoo(line,foo,setFOo), pass in state
-      //     handleMultiply(line, registers, setRegisters);
-      //     break;
-      //   case "0004":
-      //     //TODO:instead of handleFoo(line,foo,setFOo), pass in state
-      //     handleDivide(line, registers, setRegisters);
-      //     break;
-      //   case "0005":
-      //     //TODO:instead of handleFoo(line,foo,setFOo), pass in state
-      //     handleModulus(line, registers, setRegisters);
-      //     break;
-      //   case "0006":
-      //     //TODO:instead of handleFoo(line,foo,setFOo), pass in state
-      //     handleExponent(line, registers, setRegisters);
-      //     break;
-      //   default:
+      case "0002":
+        const subtract = handleSubtract(line, registers);
+        value = subtract.newVal;
+        destination = subtract.destination;
+        newRegisterList[destination].value = value;
+        this.setState({
+          registers: newRegisterList,
+        });
+        break;
+
+      case "0003":
+        const multiply = handleMultiply(line, registers);
+        value = multiply.newVal;
+        destination = multiply.destination;
+        newRegisterList[destination].value = value;
+        this.setState({
+          registers: newRegisterList,
+        });
+        break;
+      case "0004":
+        const divide = handleDivide(line, registers);
+        value = divide.newVal;
+        destination = divide.destination;
+        newRegisterList[destination].value = value;
+        this.setState({
+          registers: newRegisterList,
+        });
+        break;
+      case "0005":
+        const modulus = handleModulus(line, registers);
+        value = modulus.newVal;
+        destination = modulus.destination;
+        newRegisterList[destination].value = value;
+        this.setState({
+          registers: newRegisterList,
+        });
+        break;
+      case "0006":
+        const exponent = handleExponent(line, registers);
+        value = exponent.newVal;
+        destination = exponent.destination;
+        newRegisterList[destination].value = value;
+        this.setState({
+          registers: newRegisterList,
+        });
+        break;
+      default:
     }
     //program_counter++;
     //TODO: change to this.setState
@@ -209,7 +227,7 @@ export default class App2 extends React.Component {
     //TODO:instead of setCodeInput, this.setState to set to target value
     //setCodeInput(e.target.value);
     this.setState({ codeInput: e.target.value });
-    console.log(codeInput);
+    // console.log(codeInput);
   };
 
   saveCode = () => {
@@ -219,7 +237,7 @@ export default class App2 extends React.Component {
     let userCode = codeInput.split("\n");
     // filter out comments
     userCode.forEach((line) => {
-      if (line.search("@") == -1) {
+      if (line.search("@") == -1 && line !== "") {
         filteredLines.push(line.trim());
       }
     });
