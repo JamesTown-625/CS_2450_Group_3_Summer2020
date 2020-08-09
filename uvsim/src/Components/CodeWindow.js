@@ -26,6 +26,7 @@ const useStyles = makeStyles({
 const CodeWindow = (props) => {
 
     const classes = useStyles();
+    
 
     /*
     @ ORIG x0000
@@ -45,13 +46,16 @@ const CodeWindow = (props) => {
                     className={classes.textField}
                     onChange={props.updateCode}
                     id="outlined-multiline-static"
-                    label="Machine Code"
                     multiline
                     rows={20}
                     defaultValue={props.codeInput}
                     variant="outlined"
                 />
                 <Button style={{ width: "100%", marginTop: '20px' }} color="primary" variant="contained" onClick={props.saveCode}>Save</Button>
+                <form>
+                    <input type="file" onChange={e => props.handleFile(e.currentTarget.files[0])} style={{marginTop: '5px'}} type="file" />
+                    
+                </form>
             </Paper>
         </Modal>
     )

@@ -93,6 +93,7 @@ const Console = (props) => {
         saveCode={props.saveCode}
         open={open}
         handleClose={handleClose}
+        handleFile={props.handleFile}
       />
     </Fragment>
   );

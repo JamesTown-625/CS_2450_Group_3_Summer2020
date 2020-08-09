@@ -48,6 +48,7 @@ export default class App2 extends React.Component {
     consoleLines: [],
     running: false,
     open: false,
+    fileReader: new FileReader()
   };
 
   componentDidMount() {
@@ -216,8 +217,7 @@ export default class App2 extends React.Component {
         break;
       default:
     }
-    //program_counter++;
-    //TODO: change to this.setState
+    
     let tempCounter = this.state.program_counter;
     tempCounter = tempCounter + 1;
 
@@ -237,30 +237,7 @@ export default class App2 extends React.Component {
   handleRun = () => {
     const { running, memory } = this.state;
 
-    // printUsedFunctionToConsole(
-    //     consoleLines,
-    //     setConsoleLines,
-    //     "calling handleRun"
-    // );
-
-    //this.setState({ ...running, running: true });
-    // this.setState({ running: true }, () => {
-    //   const { running } = this.state;
-    //   console.log("running is: ", running);
-    //   while (running == true) {
-    //     console.log("Running is true");
-    //     let line = memory[this.state.program_counter].machine_language_line;
-    //     console.log(
-    //       `loop iteration  PC:${this.state.program_counter} CURRENT LINE:${line}`
-    //     );
-    //     this.executeOperation();
-    //   }
-    // });
-    // this.setState((state) => ({
-    //   running: true
-    // }));
-
-    if (memory[0].machine_language_line = "0000000000000000") {
+    if (memory[0].machine_language_line == "0000000000000000") {
       console.log("All 0's... returning")
       return
     }
@@ -340,7 +317,27 @@ export default class App2 extends React.Component {
     //   updatedMemo
     // );
   };
+  
+  handleFileRead = (e) => {
+    const content = this.fileReader.result 
+    console.log(content)
+    console.log("handleFileRead")
+  }
 
+  handleFile = (file) => {
+    let tempReader = new FileReader()
+    tempReader.onloadend = () => {
+      const content = tempReader.result
+      console.log(content)
+      this.setState({codeInput: content})
+    }
+
+    tempReader.readAsText(file)
+    console.log("handlefile")
+    this.setState({ fileReader: tempReader})
+  } 
+
+  
   render() {
     const { consoleLines, codeInput, memory } = this.state;
 
@@ -365,6 +362,7 @@ export default class App2 extends React.Component {
                 saveCode={this.saveCode}
                 consoleLines={consoleLines}
                 codeInput={this.state.codeInput}
+                handleFile={this.handleFile}
               />
             </div>
             <div>
