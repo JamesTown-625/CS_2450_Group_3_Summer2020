@@ -260,6 +260,11 @@ export default class App2 extends React.Component {
     //   running: true
     // }));
 
+    if (memory[0].machine_language_line = "0000000000000000") {
+      console.log("All 0's... returning")
+      return
+    }
+
     this.setState({ running: true });
     setTimeout(() => {
       console.log("okay tryyyyy");
