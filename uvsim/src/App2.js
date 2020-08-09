@@ -359,6 +359,7 @@ export default class App2 extends React.Component {
                 codeInput={codeInput}
                 saveCode={this.saveCode}
                 consoleLines={consoleLines}
+                codeInput={this.state.codeInput}
               />
             </div>
             <div>
@@ -378,7 +379,7 @@ export default class App2 extends React.Component {
         >
           <HelpIcon onClick={this.handleOpen} fontSize="large" />
         </Button>
-        <HelpScreen open={this.state.open} handleClose={this.handleClose} />
+        <HelpScreen  open={this.state.open} handleClose={this.handleClose} />
       </MuiThemeProvider>
     );
   }
