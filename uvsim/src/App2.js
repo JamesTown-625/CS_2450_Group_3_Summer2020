@@ -12,6 +12,7 @@ import mainTheme from "./Styles/mainTheme";
 import "./Styles/global.css";
 import {
   handleAnd,
+  handleNot,
   handleAdd,
   handleSubtract,
   handleMultiply,
@@ -19,7 +20,12 @@ import {
   handleModulus,
   handleExponent,
 } from "./MachineFunctions/arithmetic";
-import { handleTrap, handleBranch } from "./MachineFunctions/control";
+import {
+  handleTrap,
+  handleBranch,
+  handleLoad,
+  handleStore,
+} from "./MachineFunctions/control";
 import { printUsedFunctionToConsole } from "./functions";
 import "./Styles/app.css";
 
@@ -73,6 +79,7 @@ export default class App2 extends React.Component {
     let newProgramCounterVal;
     let newRegisterList = this.state.registers;
     console.log("in executeOperation");
+    console.log(memory);
     let line = memory[this.state.program_counter].machine_language_line;
     let opcode = memory[
       this.state.program_counter
@@ -95,6 +102,26 @@ export default class App2 extends React.Component {
         this.setState({
           recentRegister: destination,
           registers: newRegisterList,
+        });
+        break;
+
+      // LD
+      case "0010":
+        break;
+
+      // ST
+      case "0011":
+        if (!parseInt(line.substring(4, 7), 2)) {
+          break;
+        }
+        const store = handleStore(line, registers);
+        let newMemory = { ...this.state.memory };
+        newMemory[store.memoryDestination].machine_language_line =
+          store.sourceRegisterValue;
+        console.log("newMemory");
+        console.log(newMemory);
+        this.setState({
+          memory: newMemory,
         });
         break;
 
