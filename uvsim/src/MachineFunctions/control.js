@@ -39,15 +39,16 @@ export function handleBranch(line, recentRegister, registers) {
 }
 
 // storage interfacing
-export function handleLoad() {}
+export function handleLoad(line, memory) {
+  let destinationRegister = "r" + line.substring(4, 7);
+  let memoryLocation = parseInt(line.substring(line.length - 9), 2);
+  let memorySourceValue = memory[memoryLocation].machine_language_line;
+  return { destinationRegister, memorySourceValue };
+}
 
 export function handleStore(line, registers) {
-  console.log(`parsed source register ${parseInt(line.substring(4, 7), 2)}`);
   let sourceRegister = "r" + line.substring(4, 7);
   let sourceRegisterValue = registers[sourceRegister].value;
   let memoryDestination = parseInt(line.substring(line.length - 9), 2);
-  console.log(
-    `sourceRegister r${sourceRegister} memoryDestination ${memoryDestination}`
-  );
   return { memoryDestination, sourceRegisterValue };
 }

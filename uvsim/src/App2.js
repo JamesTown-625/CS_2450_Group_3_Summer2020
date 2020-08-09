@@ -79,7 +79,6 @@ export default class App2 extends React.Component {
     let newProgramCounterVal;
     let newRegisterList = this.state.registers;
     console.log("in executeOperation");
-    console.log(memory);
     let line = memory[this.state.program_counter].machine_language_line;
     let opcode = memory[
       this.state.program_counter
@@ -107,6 +106,14 @@ export default class App2 extends React.Component {
 
       // LD
       case "0010":
+        const load = handleLoad(line, memory);
+        newRegisterList = this.state.registers;
+        newRegisterList[load.destinationRegister].value =
+          load.memorySourceValue;
+        this.setState({
+          recentRegister: load.destinationRegister,
+          registers: newRegisterList,
+        });
         break;
 
       // ST
@@ -115,11 +122,9 @@ export default class App2 extends React.Component {
           break;
         }
         const store = handleStore(line, registers);
-        let newMemory = { ...this.state.memory };
+        let newMemory = this.state.memory;
         newMemory[store.memoryDestination].machine_language_line =
           store.sourceRegisterValue;
-        console.log("newMemory");
-        console.log(newMemory);
         this.setState({
           memory: newMemory,
         });
@@ -151,7 +156,6 @@ export default class App2 extends React.Component {
 
       // TRAP
       case "1111":
-        console.log(`trap running ${running}`);
         const trap = handleTrap(line, this.state.consoleLines);
         if (trap === "HALT") {
           this.setState({ running: false });
