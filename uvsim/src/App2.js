@@ -11,6 +11,7 @@ import Header from "./Components/Header";
 import mainTheme from "./Styles/mainTheme";
 import "./Styles/global.css";
 import {
+  handleAnd,
   handleAdd,
   handleSubtract,
   handleMultiply,
@@ -18,7 +19,7 @@ import {
   handleModulus,
   handleExponent,
 } from "./MachineFunctions/arithmetic";
-import { handleTrap } from "./MachineFunctions/control";
+import { handleTrap, handleBranch } from "./MachineFunctions/control";
 import { printUsedFunctionToConsole } from "./functions";
 import "./Styles/app.css";
 
@@ -34,6 +35,7 @@ export default class App2 extends React.Component {
       r110: { value: 0 },
       r111: { value: 0 },
     },
+    recentRegister: "",
     addressCounter: 0,
     program_counter: 0,
     codeInput: "",
@@ -66,7 +68,9 @@ export default class App2 extends React.Component {
 
   executeOperation = () => {
     let value, destination;
-    const { memory, running, registers } = this.state;
+    const { memory, running, registers, program_counter } = this.state;
+    let pcOffset;
+    let newProgramCounterVal;
     let newRegisterList = this.state.registers;
     console.log("in executeOperation");
     let line = memory[this.state.program_counter].machine_language_line;
@@ -76,6 +80,12 @@ export default class App2 extends React.Component {
 
     console.log(`pc ${this.state.program_counter} line ${line}`);
     switch (opcode) {
+      // BRANCH
+      case "0000":
+        pcOffset = handleBranch(line, this.state.recentRegister, registers);
+        newProgramCounterVal = program_counter + pcOffset;
+        break;
+
       // ADD
       case "0001":
         const add = handleAdd(line, registers);
@@ -83,6 +93,31 @@ export default class App2 extends React.Component {
         destination = add.destination;
         newRegisterList[destination].value = value;
         this.setState({
+          recentRegister: destination,
+          registers: newRegisterList,
+        });
+        break;
+
+      // AND
+      case "0101":
+        const and = handleAnd(line, registers);
+        value = and.newVal;
+        destination = and.destination;
+        newRegisterList[destination].value = value;
+        this.setState({
+          recentRegister: destination,
+          registers: newRegisterList,
+        });
+        break;
+
+      // NOT
+      case "0101":
+        const not = handleNot(line, registers);
+        value = not.newVal;
+        destination = not.destination;
+        newRegisterList[destination].value = value;
+        this.setState({
+          recentRegister: destination,
           registers: newRegisterList,
         });
         break;
@@ -90,7 +125,10 @@ export default class App2 extends React.Component {
       // TRAP
       case "1111":
         console.log(`trap running ${running}`);
-        this.setState({ running: false });
+        const trap = handleTrap(line, this.state.consoleLines);
+        if (trap === "HALT") {
+          this.setState({ running: false });
+        }
         break;
 
       // NON LC3 NATIVE OPCODES (added functionality)
@@ -100,6 +138,7 @@ export default class App2 extends React.Component {
         destination = subtract.destination;
         newRegisterList[destination].value = value;
         this.setState({
+          recentRegister: destination,
           registers: newRegisterList,
         });
         break;
@@ -110,6 +149,7 @@ export default class App2 extends React.Component {
         destination = multiply.destination;
         newRegisterList[destination].value = value;
         this.setState({
+          recentRegister: destination,
           registers: newRegisterList,
         });
         break;
@@ -119,6 +159,7 @@ export default class App2 extends React.Component {
         destination = divide.destination;
         newRegisterList[destination].value = value;
         this.setState({
+          recentRegister: destination,
           registers: newRegisterList,
         });
         break;
@@ -128,6 +169,7 @@ export default class App2 extends React.Component {
         destination = modulus.destination;
         newRegisterList[destination].value = value;
         this.setState({
+          recentRegister: destination,
           registers: newRegisterList,
         });
         break;
@@ -137,6 +179,7 @@ export default class App2 extends React.Component {
         destination = exponent.destination;
         newRegisterList[destination].value = value;
         this.setState({
+          recentRegister: destination,
           registers: newRegisterList,
         });
         break;
@@ -146,19 +189,18 @@ export default class App2 extends React.Component {
     //TODO: change to this.setState
     let tempCounter = this.state.program_counter;
     tempCounter = tempCounter + 1;
-    /*
-0011000000000000
-0001001001101010
-0001010001000010
-1111000000100101
-        */
-    const { program_counter } = this.state;
 
-    this.setState({ ...program_counter, program_counter: program_counter + 1 });
+    pcOffset
+      ? this.setState({
+          ...program_counter,
+          program_counter: newProgramCounterVal,
+        })
+      : this.setState({
+          ...program_counter,
+          program_counter: program_counter + 1,
+        });
 
     console.log("\n\n\n\n\n\n\n");
-    // console.log("reached setProgramCounter");
-    //setStep(step + 1)
   };
 
   handleRun = () => {
