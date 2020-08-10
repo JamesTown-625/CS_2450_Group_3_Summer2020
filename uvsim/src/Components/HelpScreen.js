@@ -8,10 +8,10 @@ const useStyles = makeStyles({
   box: {
     padding: "20px",
     width: "80%",
-    height: "480px",
+    height: "550px",
     margin: "0 auto",
     marginTop: "150px",
-    maxWidth: "500px",
+    maxWidth: "650px",
   },
   textField: {
     color: "white",
