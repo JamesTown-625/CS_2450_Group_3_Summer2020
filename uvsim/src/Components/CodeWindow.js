@@ -54,7 +54,6 @@ const CodeWindow = (props) => {
                 <Button style={{ width: "100%", marginTop: '20px' }} color="primary" variant="contained" onClick={props.saveCode}>Save</Button>
                 <form>
                     <input type="file" onChange={e => props.handleFile(e.currentTarget.files[0])} style={{marginTop: '5px'}} type="file" />
-                    
                 </form>
             </Paper>
         </Modal>

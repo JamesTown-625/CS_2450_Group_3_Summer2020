@@ -45,6 +45,7 @@ export default class App2 extends React.Component {
     addressCounter: 0,
     program_counter: 0,
     codeInput: "",
+    prevInput: "",
     consoleLines: [],
     running: false,
     open: false,
@@ -277,12 +278,10 @@ export default class App2 extends React.Component {
   };
 
   updateCode = (e) => {
-    const { codeInput } = this.state;
+    let tempCode = this.state.codeInput
+    tempCode = tempCode + `\n` + e.target.value
 
-    //TODO:instead of setCodeInput, this.setState to set to target value
-    //setCodeInput(e.target.value);
-    this.setState({ codeInput: e.target.value });
-    // console.log(codeInput);
+    this.setState({ codeInput: tempCode });
   };
 
   saveCode = () => {
@@ -308,14 +307,9 @@ export default class App2 extends React.Component {
       addressCounter: addressCounter + 1,
     });
 
-    // console.log(
-    //   "userCode",
-    //   userCode,
-    //   "memory",
-    //   memory,
-    //   "updatedMemo",
-    //   updatedMemo
-    // );
+    
+
+
   };
   
   handleFileRead = (e) => {
@@ -345,7 +339,7 @@ export default class App2 extends React.Component {
       <MuiThemeProvider theme={mainTheme}>
         <Header />
         <div>
-          <div>Test</div>
+          
           <div className="container">
             <div className="leftGrid">
               <RegisterAccumulator
@@ -353,8 +347,6 @@ export default class App2 extends React.Component {
                 pc={this.state.program_counter}
               />
               <Console
-                // setClicked={setClicked}
-                //TODO: change to this.setState
                 handleRun={this.handleRun}
                 handleStep={this.handleStep}
                 updateCode={this.updateCode}
