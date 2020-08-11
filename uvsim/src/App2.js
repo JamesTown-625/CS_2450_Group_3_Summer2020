@@ -26,7 +26,7 @@ import {
   handleLoad,
   handleStore,
 } from "./MachineFunctions/control";
-import { printUsedFunctionToConsole } from "./functions";
+//import { printUsedFunctionToConsole } from "./functions";
 import "./Styles/app.css";
 
 export default class App2 extends React.Component {
@@ -75,6 +75,23 @@ export default class App2 extends React.Component {
     console.log(this.state.memory);
   }
 
+  printUsedFunctionToConsole = (str) => {
+    let tempLines = this.state.consoleLines;
+
+    if (tempLines.length >= 7) {
+      tempLines.splice(0, 1);
+
+      tempLines = tempLines + str;
+      this.setState({ consoleLines: [...this.state.consoleLines, str] });
+      console.log(
+        "From printUsedFunctionToConsole() => consoleLines:",
+        this.state.consoleLines
+      );
+    } else {
+      this.setState({ consoleLines: [...this.state.consoleLines, str] });
+    }
+  };
+
   executeOperation = () => {
     let value, destination;
     const { memory, running, registers, program_counter } = this.state;
@@ -93,6 +110,7 @@ export default class App2 extends React.Component {
       case "0000":
         pcOffset = handleBranch(line, this.state.recentRegister, registers);
         newProgramCounterVal = program_counter + pcOffset;
+        this.printUsedFunctionToConsole("Case 0000");
         break;
 
       // ADD
@@ -105,6 +123,7 @@ export default class App2 extends React.Component {
           recentRegister: destination,
           registers: newRegisterList,
         });
+        this.printUsedFunctionToConsole("Case 0001");
         break;
 
       // LD
@@ -117,6 +136,7 @@ export default class App2 extends React.Component {
           recentRegister: load.destinationRegister,
           registers: newRegisterList,
         });
+        this.printUsedFunctionToConsole("Case 0010");
         break;
 
       // ST
@@ -131,6 +151,7 @@ export default class App2 extends React.Component {
         this.setState({
           memory: newMemory,
         });
+        this.printUsedFunctionToConsole("Case 0011");
         break;
 
       // AND
@@ -143,6 +164,7 @@ export default class App2 extends React.Component {
           recentRegister: destination,
           registers: newRegisterList,
         });
+        this.printUsedFunctionToConsole("Case 0101");
         break;
 
       // NOT
@@ -155,6 +177,7 @@ export default class App2 extends React.Component {
           recentRegister: destination,
           registers: newRegisterList,
         });
+        this.printUsedFunctionToConsole("Case 0101");
         break;
 
       // TRAP
@@ -162,6 +185,7 @@ export default class App2 extends React.Component {
         const trap = handleTrap(line, this.state.consoleLines);
         if (trap === "HALT") {
           this.setState({ running: false });
+          this.printUsedFunctionToConsole("<<<HALTING SYSTEM>>>");
         }
         break;
 
@@ -175,6 +199,7 @@ export default class App2 extends React.Component {
           recentRegister: destination,
           registers: newRegisterList,
         });
+        this.printUsedFunctionToConsole("Case 0002");
         break;
 
       case "0003":
@@ -186,6 +211,7 @@ export default class App2 extends React.Component {
           recentRegister: destination,
           registers: newRegisterList,
         });
+        this.printUsedFunctionToConsole("Case 0003");
         break;
       case "0004":
         const divide = handleDivide(line, registers);
@@ -196,6 +222,7 @@ export default class App2 extends React.Component {
           recentRegister: destination,
           registers: newRegisterList,
         });
+        this.printUsedFunctionToConsole("Case 0004");
         break;
       case "0005":
         const modulus = handleModulus(line, registers);
@@ -206,6 +233,7 @@ export default class App2 extends React.Component {
           recentRegister: destination,
           registers: newRegisterList,
         });
+        this.printUsedFunctionToConsole("Case 0005");
         break;
       case "0006":
         const exponent = handleExponent(line, registers);
@@ -216,6 +244,7 @@ export default class App2 extends React.Component {
           recentRegister: destination,
           registers: newRegisterList,
         });
+        this.printUsedFunctionToConsole("Case 0006");
         break;
       default:
     }
