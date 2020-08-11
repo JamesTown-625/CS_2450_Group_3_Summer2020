@@ -158,6 +158,7 @@ export default class App2 extends React.Component {
 
       // TRAP
       case "1111":
+        const recentRegister = this.state.recentRegister;
         const trap = handleTrap(
           line,
           this.state.consoleLines,
