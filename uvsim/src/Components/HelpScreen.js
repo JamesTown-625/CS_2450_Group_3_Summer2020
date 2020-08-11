@@ -40,36 +40,49 @@ const HelpScreen = (props) => {
   // const [selectedFour, setSelectedFour] = useState("outlined");
 
   const chooseTemplateOne = () => {
+    console.log("chose one");
     setSelectedTemplate(template[0]);
     setSelectedOne("contained");
     setSelectedTwo("outlined");
     setSelectedThree("outlined");
     // setSelectedFour("outlined");
+
+    console.log(`selectedOne ${selectedOne}`);
+    console.log(`selectedTwo ${selectedTwo}`);
+    console.log(`selectedThree ${selectedThree}`);
   };
 
   const chooseTemplateTwo = () => {
+    console.log("chose two");
     setSelectedTemplate(template[1]);
     setSelectedOne("outlined");
     setSelectedTwo("contained");
     setSelectedThree("outlined");
     // setSelectedFour("outlined");
+    console.log(`selectedOne ${selectedOne}`);
+    console.log(`selectedTwo ${selectedTwo}`);
+    console.log(`selectedThree ${selectedThree}`);
   };
 
   const chooseTemplateThree = () => {
+    console.log("chose three");
     setSelectedTemplate(template[2]);
     setSelectedOne("outlined");
     setSelectedTwo("outlined");
     setSelectedThree("contained");
     // setSelectedFour("outlined");
+    console.log(`selectedOne ${selectedOne}`);
+    console.log(`selectedTwo ${selectedTwo}`);
+    console.log(`selectedThree ${selectedThree}`);
   };
 
-  const chooseTemplateFour = () => {
-    setSelectedTemplate(template[3]);
-    setSelectedOne("outlined");
-    setSelectedTwo("outlined");
-    setSelectedThree("outlined");
-    // setSelectedFour("contained");
-  };
+  // const chooseTemplateFour = () => {
+  //   setSelectedTemplate(template[3]);
+  //   setSelectedOne("outlined");
+  //   setSelectedTwo("outlined");
+  //   setSelectedThree("outlined");
+  //   setSelectedFour("contained");
+  // };
 
   /*
     @ ORIG x0000
