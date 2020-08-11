@@ -1,12 +1,13 @@
 // Functions for handling IO and code flow control functions
 
 // TRAP operation (covers write)
-export function handleTrap(line, consoleLines) {
+export function handleTrap(line, consoleLines, recentRegister, registers) {
   let trapVector = parseInt(line.substring(line.length - 8), 2).toString(16);
   switch (trapVector) {
     // PUTS
     case "22":
-    // WRITE STORED STRING FROM LAST ACCESSED REGISTER TO CONSOLE
+      // WRITE STORED STRING FROM LAST ACCESSED REGISTER TO CONSOLE
+      return String.fromCharCode(registers[recentRegister].value);
     // HALT
     case "25":
       return "HALT";

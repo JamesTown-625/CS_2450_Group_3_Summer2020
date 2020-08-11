@@ -31,20 +31,20 @@ const HelpScreen = (props) => {
     `@ ORIG x0000\n0011000000000000\n\n@ add decimal 10 to register 1 (immediate mode\n0001001001101010\n@ add the contents of register 1 to register 2 (not immediate mode)\n0001010001000010\n\n@ add decimal 10 to register 4 (immediate mode)\n0001100100101010\n@ subtract decimal 5 to register 1 (immediate mode)\n0002001001100101\n@ subtract the value of register 2 from register 1 (not immediate mode)\n0002010001000010\n\n@ multiply register 2 by 2 (immediate mode)\n0003010010100010\n@ divide register 2 by 2 (not immediate mode)\n0004010010100010\n\n@ mod register 2 by 3 (immediate mode)\n0005010010100011\n@ register 1 to the power of the value of register 3 (not immediate mode)\n0006001001000011\n\n@ TRAP- HALT\n1111000000100101`,
     `@ ORIG x0000\n0011000000000000\n@ add decimal 10 to register 1 (immediate mode)\n0001001001101010\n\n@ branch past the following TRAP HALT command if r1 is positive\n0000001000000010\n@ TRAP- HALT\n1111000000100101\n\n@ add decimal 10 to register 1 (immediate mode)\n0001001001101010\n@ TRAP- HALT\n1111000000100101`,
     `@ ORIG x0000\n0011000000000000\n@ add decimal 10 to register 1 (immediate mode)\n0001001001101010\n\n@ store the value of register 1 to memory address 32\n0011001000100000\n@ load the value from memory address 32 and store it in register 2\n0010010000100000\n\n@ TRAP- HALT\n1111000000100101`,
-    // `00110001111000111000\n0000111110001100\n1010101010101010\n0101010100000101`,
+    `@ ORIG x0000\n0011000000000000\n@ add decimal 9 to register 1 (immediate mode)\n0001001001101001\n\n@ add half of the ASCII offset to register 1 (immediate mode)\n0001001001111000\n@ add half of the ASCII offset to register 1 (immediate mode)\n0001001001111000\n\n@ TRAP- PUTS\n1111000000100010\n@ TRAP- HALT\n1111000000100101`,
   ];
   const [selectedTemplate, setSelectedTemplate] = useState([template[0]]);
   const [selectedOne, setSelectedOne] = useState("contained");
   const [selectedTwo, setSelectedTwo] = useState("outlined");
   const [selectedThree, setSelectedThree] = useState("outlined");
-  // const [selectedFour, setSelectedFour] = useState("outlined");
+  const [selectedFour, setSelectedFour] = useState("outlined");
 
   const chooseTemplateOne = () => {
     setSelectedTemplate(template[0]);
     setSelectedOne("contained");
     setSelectedTwo("outlined");
     setSelectedThree("outlined");
-    // setSelectedFour("outlined");
+    setSelectedFour("outlined");
   };
 
   const chooseTemplateTwo = () => {
@@ -52,7 +52,7 @@ const HelpScreen = (props) => {
     setSelectedOne("outlined");
     setSelectedTwo("contained");
     setSelectedThree("outlined");
-    // setSelectedFour("outlined");
+    setSelectedFour("outlined");
   };
 
   const chooseTemplateThree = () => {
@@ -60,7 +60,7 @@ const HelpScreen = (props) => {
     setSelectedOne("outlined");
     setSelectedTwo("outlined");
     setSelectedThree("contained");
-    // setSelectedFour("outlined");
+    setSelectedFour("outlined");
   };
 
   const chooseTemplateFour = () => {
@@ -68,7 +68,7 @@ const HelpScreen = (props) => {
     setSelectedOne("outlined");
     setSelectedTwo("outlined");
     setSelectedThree("outlined");
-    // setSelectedFour("contained");
+    setSelectedFour("contained");
   };
 
   /*
@@ -110,13 +110,13 @@ const HelpScreen = (props) => {
         >
           Loading and Storing
         </Button>
-        {/* <Button
+        <Button
           color="primary"
           variant={selectedFour}
           onClick={chooseTemplateFour}
         >
-          Four
-        </Button> */}
+          Print to console
+        </Button>
         <TextField
           multiline
           rows={20}

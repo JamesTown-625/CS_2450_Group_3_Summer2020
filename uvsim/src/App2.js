@@ -182,10 +182,18 @@ export default class App2 extends React.Component {
 
       // TRAP
       case "1111":
-        const trap = handleTrap(line, this.state.consoleLines);
+        const recentRegister = this.state.recentRegister;
+        const trap = handleTrap(
+          line,
+          this.state.consoleLines,
+          recentRegister,
+          registers
+        );
         if (trap === "HALT") {
           this.setState({ running: false });
-          this.printUsedFunctionToConsole("<<<HALTING SYSTEM>>>");
+        } else {
+          // call set console lines and write the string to the console
+          console.log(trap);
         }
         break;
 
