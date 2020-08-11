@@ -57,7 +57,7 @@ export default class App2 extends React.Component {
     const { memory } = this.state;
     // setProgramCounter(program_counter => program_counter + 1)
     let tempArray = [...this.state.memory];
-    for (let i = 0; i <= 1000; i++) {
+    for (let i = 0; i <= 999; i++) {
       tempArray.push({
         memoryAddress: i,
         machine_language_line: "0000000000000000",
@@ -110,7 +110,7 @@ export default class App2 extends React.Component {
       case "0000":
         pcOffset = handleBranch(line, this.state.recentRegister, registers);
         newProgramCounterVal = program_counter + pcOffset;
-        this.printUsedFunctionToConsole("Case 0000");
+        //this.printUsedFunctionToConsole("Case 0000");
         break;
 
       // ADD
@@ -123,7 +123,7 @@ export default class App2 extends React.Component {
           recentRegister: destination,
           registers: newRegisterList,
         });
-        this.printUsedFunctionToConsole("Case 0001");
+        //this.printUsedFunctionToConsole("Case 0001");
         break;
 
       // LD
@@ -136,7 +136,7 @@ export default class App2 extends React.Component {
           recentRegister: load.destinationRegister,
           registers: newRegisterList,
         });
-        this.printUsedFunctionToConsole("Case 0010");
+        //this.printUsedFunctionToConsole("Case 0010");
         break;
 
       // ST
@@ -151,7 +151,7 @@ export default class App2 extends React.Component {
         this.setState({
           memory: newMemory,
         });
-        this.printUsedFunctionToConsole("Case 0011");
+        //this.printUsedFunctionToConsole("Case 0011");
         break;
 
       // AND
@@ -164,7 +164,7 @@ export default class App2 extends React.Component {
           recentRegister: destination,
           registers: newRegisterList,
         });
-        this.printUsedFunctionToConsole("Case 0101");
+        //this.printUsedFunctionToConsole("Case 0101");
         break;
 
       // NOT
@@ -177,7 +177,7 @@ export default class App2 extends React.Component {
           recentRegister: destination,
           registers: newRegisterList,
         });
-        this.printUsedFunctionToConsole("Case 0101");
+        //this.printUsedFunctionToConsole("Case 0101");
         break;
 
       // TRAP
@@ -191,6 +191,7 @@ export default class App2 extends React.Component {
         );
         if (trap === "HALT") {
           this.setState({ running: false });
+          this.printUsedFunctionToConsole("<<<HALTING SYSTEM>>>");
         } else {
           // call set console lines and write the string to the console
           console.log(trap);
@@ -207,7 +208,7 @@ export default class App2 extends React.Component {
           recentRegister: destination,
           registers: newRegisterList,
         });
-        this.printUsedFunctionToConsole("Case 0002");
+        //this.printUsedFunctionToConsole("Case 0002");
         break;
 
       case "0003":
@@ -219,7 +220,7 @@ export default class App2 extends React.Component {
           recentRegister: destination,
           registers: newRegisterList,
         });
-        this.printUsedFunctionToConsole("Case 0003");
+        //this.printUsedFunctionToConsole("Case 0003");
         break;
       case "0004":
         const divide = handleDivide(line, registers);
@@ -230,7 +231,7 @@ export default class App2 extends React.Component {
           recentRegister: destination,
           registers: newRegisterList,
         });
-        this.printUsedFunctionToConsole("Case 0004");
+        //this.printUsedFunctionToConsole("Case 0004");
         break;
       case "0005":
         const modulus = handleModulus(line, registers);
@@ -241,7 +242,7 @@ export default class App2 extends React.Component {
           recentRegister: destination,
           registers: newRegisterList,
         });
-        this.printUsedFunctionToConsole("Case 0005");
+        //this.printUsedFunctionToConsole("Case 0005");
         break;
       case "0006":
         const exponent = handleExponent(line, registers);
@@ -252,7 +253,7 @@ export default class App2 extends React.Component {
           recentRegister: destination,
           registers: newRegisterList,
         });
-        this.printUsedFunctionToConsole("Case 0006");
+        //this.printUsedFunctionToConsole("Case 0006");
         break;
       default:
     }
@@ -286,6 +287,11 @@ export default class App2 extends React.Component {
       console.log("okay tryyyyy");
       while (this.state.running == true) {
         console.log("Running is true");
+        if (!memory[this.state.program_counter].machine_language_line) {
+          console.log("ERROR, NOTHING TO READ");
+          this.printUsedFunctionToConsole("No further instructions");
+          return;
+        }
         let line = memory[this.state.program_counter].machine_language_line;
         console.log(
           `loop iteration  PC:${this.state.program_counter} CURRENT LINE:${line}`
@@ -314,7 +320,8 @@ export default class App2 extends React.Component {
     const { memory, program_counter } = this.state;
     memory[program_counter]["machine_language_line"]
       ? this.executeOperation()
-      : console.log("end of program");
+      : this.printUsedFunctionToConsole("No further instructions");
+    console.log("end of program");
   };
 
   updateCode = (e) => {
