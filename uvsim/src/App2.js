@@ -50,6 +50,10 @@ export default class App2 extends React.Component {
     running: false,
     open: false,
     fileReader: new FileReader(),
+<<<<<<< HEAD
+=======
+    helpWindow: 0,
+>>>>>>> c1126e8cd119db00573b43b4d3e498451f3e8ec9
   };
 
   componentDidMount() {
@@ -276,6 +280,8 @@ export default class App2 extends React.Component {
     this.setState({
       open: false,
     });
+    console.log("closing window");
+    this.setState({ helpWindow: this.state.helpWindow + 1 });
   };
 
   handleStep = () => {
@@ -376,7 +382,15 @@ export default class App2 extends React.Component {
         >
           <HelpIcon onClick={this.handleOpen} fontSize="large" />
         </Button>
+<<<<<<< HEAD
         <HelpScreen open={this.state.open} handleClose={this.handleClose} />
+=======
+        <HelpScreen
+          key={this.state.helpWindow}
+          open={this.state.open}
+          handleClose={this.handleClose}
+        />
+>>>>>>> c1126e8cd119db00573b43b4d3e498451f3e8ec9
       </MuiThemeProvider>
     );
   }
