@@ -49,7 +49,8 @@ export default class App2 extends React.Component {
     consoleLines: [],
     running: false,
     open: false,
-    fileReader: new FileReader()
+    fileReader: new FileReader(),
+    helpWindow: 0,
   };
 
   componentDidMount() {
@@ -218,7 +219,7 @@ export default class App2 extends React.Component {
         break;
       default:
     }
-    
+
     let tempCounter = this.state.program_counter;
     tempCounter = tempCounter + 1;
 
@@ -239,8 +240,8 @@ export default class App2 extends React.Component {
     const { running, memory } = this.state;
 
     if (memory[0].machine_language_line == "0000000000000000") {
-      console.log("All 0's... returning")
-      return
+      console.log("All 0's... returning");
+      return;
     }
 
     this.setState({ running: true });
@@ -268,6 +269,8 @@ export default class App2 extends React.Component {
     this.setState({
       open: false,
     });
+    console.log("closing window");
+    this.setState({ helpWindow: this.state.helpWindow + 1 });
   };
 
   handleStep = () => {
@@ -278,8 +281,8 @@ export default class App2 extends React.Component {
   };
 
   updateCode = (e) => {
-    let tempCode = this.state.codeInput
-    tempCode = tempCode + `\n` + e.target.value
+    let tempCode = this.state.codeInput;
+    tempCode = tempCode + `\n` + e.target.value;
 
     this.setState({ codeInput: tempCode });
   };
@@ -306,32 +309,27 @@ export default class App2 extends React.Component {
       memory: updatedMemo,
       addressCounter: addressCounter + 1,
     });
-
-    
-
-
   };
-  
+
   handleFileRead = (e) => {
-    const content = this.fileReader.result 
-    console.log(content)
-    console.log("handleFileRead")
-  }
+    const content = this.fileReader.result;
+    console.log(content);
+    console.log("handleFileRead");
+  };
 
   handleFile = (file) => {
-    let tempReader = new FileReader()
+    let tempReader = new FileReader();
     tempReader.onloadend = () => {
-      const content = tempReader.result
-      console.log(content)
-      this.setState({codeInput: content})
-    }
+      const content = tempReader.result;
+      console.log(content);
+      this.setState({ codeInput: content });
+    };
 
-    tempReader.readAsText(file)
-    console.log("handlefile")
-    this.setState({ fileReader: tempReader})
-  } 
+    tempReader.readAsText(file);
+    console.log("handlefile");
+    this.setState({ fileReader: tempReader });
+  };
 
-  
   render() {
     const { consoleLines, codeInput, memory } = this.state;
 
@@ -339,7 +337,6 @@ export default class App2 extends React.Component {
       <MuiThemeProvider theme={mainTheme}>
         <Header />
         <div>
-          
           <div className="container">
             <div className="leftGrid">
               <RegisterAccumulator
@@ -374,7 +371,11 @@ export default class App2 extends React.Component {
         >
           <HelpIcon onClick={this.handleOpen} fontSize="large" />
         </Button>
-        <HelpScreen  open={this.state.open} handleClose={this.handleClose} />
+        <HelpScreen
+          key={this.state.helpWindow}
+          open={this.state.open}
+          handleClose={this.handleClose}
+        />
       </MuiThemeProvider>
     );
   }
