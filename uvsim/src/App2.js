@@ -194,6 +194,7 @@ export default class App2 extends React.Component {
           this.printUsedFunctionToConsole("<<<HALTING SYSTEM>>>");
         } else {
           // call set console lines and write the string to the console
+          this.printUsedFunctionToConsole(trap);
           console.log(trap);
         }
         break;
